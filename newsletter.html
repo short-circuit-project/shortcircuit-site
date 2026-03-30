@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Newsletter — Short Circuit</title>
+  <meta name="description" content="The Short Circuit newsletter: AI in manufacturing and electronics, explained by someone still learning. Free, weekly, no fluff.">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* ============================================
+       NEWSLETTER PAGE — SPECIFIC STYLES
+    ============================================ */
+
+    /* Signup hero card */
+    .signup-hero {
+      background: linear-gradient(135deg, var(--deep-navy-light), var(--deep-navy));
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 48px;
+      margin-bottom: 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .signup-hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0, 166, 251, 0.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .signup-hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 40px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .signup-hero h2 {
+      font-family: var(--font-heading);
+      font-size: 1.8em;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+    }
+
+    .signup-hero p {
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    .signup-perks {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .signup-perks .perk {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.88em;
+      color: var(--text-secondary);
+    }
+
+    .signup-perks .perk-icon {
+      color: var(--circuit-green);
+      font-size: 1.1em;
+    }
+
+    .signup-form {
+      position: relative;
+      z-index: 1;
+    }
+
+    .signup-form .form-group {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .signup-form input[type="email"] {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 0.95em;
+      outline: none;
+      transition: border-color var(--transition-fast);
+    }
+
+    .signup-form input[type="email"]::placeholder { color: var(--mid-gray); }
+    .signup-form input[type="email"]:focus { border-color: var(--electric-blue); }
+
+    .signup-form button {
+      background: var(--electric-blue);
+      color: #fff;
+      border: none;
+      padding: 14px 28px;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 0.95em;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    }
+
+    .signup-form button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 166, 251, 0.3);
+    }
+
+    .signup-form .form-note {
+      font-size: 0.78em;
+      color: var(--mid-gray);
+    }
+
+    /* What you'll get cards */
+    .what-you-get {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .what-you-get .get-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+    }
+
+    .what-you-get .get-card .get-icon {
+      font-size: 1.3em;
+      margin-bottom: 8px;
+    }
+
+    .what-you-get .get-card h4 {
+      font-family: var(--font-heading);
+      font-size: 0.9em;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .what-you-get .get-card p {
+      font-size: 0.8em;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* Featured / Latest Issue */
+    .latest-section { border-top: 1px solid var(--card-border); }
+
+    .featured-issue {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: border-color var(--transition-smooth);
+    }
+
+    .featured-issue:hover {
+      border-color: var(--card-hover-border);
+    }
+
+    .featured-issue-header {
+      padding: 40px 40px 0;
+    }
+
+    .featured-issue .issue-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--electric-blue-glow);
+      border: 1px solid var(--electric-blue-border);
+      color: var(--electric-blue);
+      padding: 5px 14px;
+      border-radius: 20px;
+      font-size: 0.78em;
+      font-weight: 600;
+      font-family: var(--font-mono);
+      margin-bottom: 20px;
+    }
+
+    .featured-issue h3 {
+      font-family: var(--font-heading);
+      font-size: 1.6em;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+      line-height: 1.25;
+    }
+
+    .featured-issue .issue-meta {
+      font-size: 0.85em;
+      color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+
+    .featured-issue .issue-description {
+      color: var(--text-secondary);
+      line-height: 1.7;
+      font-size: 0.95em;
+      max-width: 700px;
+    }
+
+    .featured-issue-highlights {
+      padding: 28px 40px;
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .highlight-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.82em;
+      color: var(--text-secondary);
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--card-border);
+      padding: 6px 14px;
+      border-radius: 6px;
+    }
+
+    .highlight-chip .h-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+
+    .highlight-chip:nth-child(1) .h-dot { background: var(--electric-blue); }
+    .highlight-chip:nth-child(2) .h-dot { background: var(--circuit-green); }
+    .highlight-chip:nth-child(3) .h-dot { background: var(--warm-amber); }
+    .highlight-chip:nth-child(4) .h-dot { background: var(--electric-blue); }
+
+    .featured-issue-footer {
+      padding: 20px 40px 28px;
+      border-top: 1px solid var(--card-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .featured-issue-footer .read-time {
+      font-family: var(--font-mono);
+      font-size: 0.78em;
+      color: var(--mid-gray);
+    }
+
+    .featured-issue-footer .read-link {
+      font-weight: 600;
+      font-size: 0.9em;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .featured-issue-footer .read-link .arrow {
+      transition: transform var(--transition-fast);
+    }
+
+    .featured-issue:hover .read-link .arrow {
+      transform: translateX(4px);
+    }
+
+    /* Archive Section */
+    .archive-section { border-top: 1px solid var(--card-border); }
+
+    .archive-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .archive-item {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 24px 28px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 24px;
+      align-items: center;
+      transition: border-color var(--transition-smooth), transform var(--transition-fast);
+    }
+
+    .archive-item:hover {
+      border-color: var(--card-hover-border);
+      transform: translateY(-2px);
+    }
+
+    .archive-item .issue-number {
+      font-family: var(--font-mono);
+      font-size: 0.82em;
+      font-weight: 600;
+      color: var(--electric-blue);
+      background: var(--electric-blue-glow);
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      white-space: nowrap;
+    }
+
+    .archive-item .issue-content h4 {
+      font-family: var(--font-heading);
+      font-size: 1.05em;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .archive-item .issue-content .issue-date {
+      font-size: 0.82em;
+      color: var(--mid-gray);
+    }
+
+    .archive-item .issue-link {
+      font-weight: 600;
+      font-size: 0.88em;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .archive-item .issue-link .arrow {
+      transition: transform var(--transition-fast);
+    }
+
+    .archive-item:hover .issue-link .arrow {
+      transform: translateX(4px);
+    }
+
+    /* Empty state for future archive items */
+    .archive-coming {
+      text-align: center;
+      padding: 40px;
+      color: var(--mid-gray);
+      font-size: 0.92em;
+    }
+
+    /* Bottom signup */
+    .bottom-signup {
+      border-top: 1px solid var(--card-border);
+    }
+
+    .bottom-signup-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 48px;
+      text-align: center;
+    }
+
+    .bottom-signup-card h3 {
+      font-family: var(--font-heading);
+      font-size: 1.6em;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .bottom-signup-card p {
+      color: var(--text-secondary);
+      margin-bottom: 28px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .bottom-signup-card .form-group {
+      display: flex;
+      gap: 12px;
+      max-width: 460px;
+      margin: 0 auto 12px;
+    }
+
+    .bottom-signup-card input[type="email"] {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-size: 0.95em;
+      outline: none;
+      transition: border-color var(--transition-fast);
+    }
+
+    .bottom-signup-card input::placeholder { color: var(--mid-gray); }
+    .bottom-signup-card input:focus { border-color: var(--electric-blue); }
+
+    .bottom-signup-card button {
+      background: var(--electric-blue);
+      color: #fff;
+      border: none;
+      padding: 14px 28px;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    }
+
+    .bottom-signup-card button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 166, 251, 0.3);
+    }
+
+    .bottom-signup-card .form-note {
+      font-size: 0.78em;
+      color: var(--mid-gray);
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .signup-hero-inner {
+        grid-template-columns: 1fr;
+      }
+
+      .what-you-get {
+        grid-template-columns: 1fr;
+      }
+
+      .featured-issue-header,
+      .featured-issue-highlights,
+      .featured-issue-footer {
+        padding-left: 24px;
+        padding-right: 24px;
+      }
+
+      .archive-item {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .archive-item .issue-number {
+        justify-self: start;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .signup-hero { padding: 28px 20px; }
+
+      .bottom-signup-card { padding: 32px 20px; }
+      .bottom-signup-card .form-group { flex-direction: column; }
+
+      .signup-form .form-group { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== NAVIGATION ========== -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Short <span class="zap">&#9889;</span> Circuit</a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="newsletter.html" class="active">Newsletter</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="newsletter.html" class="nav-cta">Subscribe</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ========== PAGE HEADER ========== -->
+  <header class="page-header">
+    <div class="page-header-inner">
+      <div class="section-label">Newsletter</div>
+      <h1>Short &#9889; Circuit Newsletter</h1>
+      <p class="page-description">AI in manufacturing and electronics, explained by someone still learning. Weekly issues cover industry news, hands-on experiments, and honest breakdowns of what AI can and can't do.</p>
+    </div>
+  </header>
+
+  <!-- ========== SIGNUP HERO ========== -->
+  <section class="section" style="padding-top: 0;">
+    <div class="section-inner">
+      <div class="signup-hero reveal">
+        <div class="signup-hero-inner">
+          <div>
+            <h2>Join the journey</h2>
+            <p>Every week I send out what I've learned, what broke, and what surprised me. It's part industry news, part lab notebook, part honest diary from someone figuring out AI in real time.</p>
+            <div class="signup-perks">
+              <span class="perk"><span class="perk-icon">&#10003;</span> Free forever</span>
+              <span class="perk"><span class="perk-icon">&#10003;</span> Weekly issues</span>
+              <span class="perk"><span class="perk-icon">&#10003;</span> No spam, ever</span>
+              <span class="perk"><span class="perk-icon">&#10003;</span> Unsubscribe anytime</span>
+            </div>
+          </div>
+          <div class="signup-form">
+            <form action="#" method="post">
+              <div class="form-group">
+                <input type="email" placeholder="you@company.com" required>
+                <button type="submit">Subscribe</button>
+              </div>
+              <span class="form-note">Your email stays between us. We're building trust here.</span>
+            </form>
+            <div class="what-you-get">
+              <div class="get-card">
+                <div class="get-icon">&#9889;</div>
+                <h4>The Spark</h4>
+                <p>Lead story on the week's most interesting AI development</p>
+              </div>
+              <div class="get-card">
+                <div class="get-icon">&#128295;</div>
+                <h4>The Workbench</h4>
+                <p>Hands-on experiment or build, documented step by step</p>
+              </div>
+              <div class="get-card">
+                <div class="get-icon">&#128064;</div>
+                <h4>How We Made This</h4>
+                <p>Full transparency on how AI was used to create the issue</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== LATEST ISSUE ========== -->
+  <section class="section latest-section">
+    <div class="section-inner">
+      <div class="section-label reveal">Latest Issue</div>
+      <h2 class="section-title reveal">The most recent dispatch</h2>
+      <p class="section-subtitle reveal">Fresh off the press. Every issue is also available as a full HTML email if you want to see the original format.</p>
+
+      <a href="#" class="featured-issue reveal" style="display: block; color: inherit;">
+        <div class="featured-issue-header">
+          <span class="issue-badge">&#9889; Latest</span>
+          <h3>The AI Tipping Point</h3>
+          <div class="issue-meta">Vol. 1, Issue 1 &mdash; March 2026</div>
+          <p class="issue-description">
+            OpenAI kills Sora after burning $15M per day. Samsung commits to all-AI factories by 2030. Siemens and NVIDIA build the first fully AI-driven adaptive manufacturing site. Plus: we built a complete AI research workflow from scratch and showed you exactly how every piece was made.
+          </p>
+        </div>
+        <div class="featured-issue-highlights">
+          <span class="highlight-chip"><span class="h-dot"></span> OpenAI Kills Sora</span>
+          <span class="highlight-chip"><span class="h-dot"></span> Samsung AI Factories</span>
+          <span class="highlight-chip"><span class="h-dot"></span> EU AI Act Deadline</span>
+          <span class="highlight-chip"><span class="h-dot"></span> How We Made This</span>
+        </div>
+        <div class="featured-issue-footer">
+          <span class="read-time">8 min read</span>
+          <span class="read-link">Read this issue <span class="arrow">&#8594;</span></span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ========== ARCHIVE ========== -->
+  <section class="section archive-section">
+    <div class="section-inner">
+      <div class="section-label reveal">Archive</div>
+      <h2 class="section-title reveal">Past issues</h2>
+      <p class="section-subtitle reveal">Every issue we've ever published, newest first. The whole history of the journey.</p>
+
+      <div class="archive-list">
+        <a href="#" class="archive-item reveal" style="color: inherit;">
+          <span class="issue-number">Vol. 1 #1</span>
+          <div class="issue-content">
+            <h4>The AI Tipping Point</h4>
+            <span class="issue-date">March 2026</span>
+          </div>
+          <span class="issue-link">Read <span class="arrow">&#8594;</span></span>
+        </a>
+
+        <div class="archive-coming reveal">
+          More issues coming soon. We're just getting started.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== BOTTOM SIGNUP ========== -->
+  <section class="section bottom-signup">
+    <div class="section-inner">
+      <div class="bottom-signup-card reveal">
+        <h3>Don't miss the next issue</h3>
+        <p>I'm learning something new every week. The newsletter is how I share it. Get it delivered to your inbox every Tuesday.</p>
+        <form action="#" method="post">
+          <div class="form-group">
+            <input type="email" placeholder="you@company.com" required>
+            <button type="submit">Subscribe</button>
+          </div>
+          <span class="form-note">No spam. No selling your data. Just signal.</span>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-logo">Short <span class="zap">&#9889;</span> Circuit</span>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="newsletter.html">Newsletter</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="https://tiktok.com/@shortcircuitproject" target="_blank" rel="noopener">TikTok</a></li>
+        <li><a href="https://linkedin.com/in/richbarden" target="_blank" rel="noopener">LinkedIn</a></li>
+      </ul>
+      <span class="footer-copy">&copy; 2026 Short Circuit Project</span>
+    </div>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>

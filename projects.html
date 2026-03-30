@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects — Short Circuit</title>
+  <meta name="description" content="AI projects built from scratch, documented step by step. From RAG systems to data dashboards — each one started as a question I couldn't answer.">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* ============================================
+       PROJECTS PAGE — SPECIFIC STYLES
+    ============================================ */
+
+    /* Stats bar */
+    .stats-bar {
+      display: flex;
+      gap: 32px;
+      margin-top: 32px;
+      flex-wrap: wrap;
+    }
+
+    .stats-bar .stat {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .stats-bar .stat-number {
+      font-family: var(--font-heading);
+      font-size: 2em;
+      font-weight: 700;
+      color: var(--electric-blue);
+    }
+
+    .stats-bar .stat-label {
+      font-size: 0.88em;
+      color: var(--text-secondary);
+    }
+
+    /* Bento grid */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: auto;
+      gap: 20px;
+    }
+
+    .project-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 32px 28px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color var(--transition-smooth), transform var(--transition-fast);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .project-card:hover {
+      border-color: var(--card-hover-border);
+      transform: translateY(-4px);
+    }
+
+    .project-card.featured {
+      grid-column: span 2;
+    }
+
+    .project-card.full-width {
+      grid-column: span 3;
+    }
+
+    /* Color accent on top */
+    .project-card .card-accent {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+    }
+
+    .card-accent.blue { background: var(--electric-blue); }
+    .card-accent.green { background: var(--circuit-green); }
+    .card-accent.amber { background: var(--warm-amber); }
+    .card-accent.gradient { background: var(--gradient-bar); }
+
+    .project-card .card-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.72em;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .project-card .card-tag .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+
+    .tag-blue { color: var(--electric-blue); }
+    .tag-blue .dot { background: var(--electric-blue); }
+    .tag-green { color: var(--circuit-green); }
+    .tag-green .dot { background: var(--circuit-green); }
+    .tag-amber { color: var(--warm-amber); }
+    .tag-amber .dot { background: var(--warm-amber); }
+
+    .project-card .status-badge {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 0.7em;
+      font-weight: 600;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .status-badge.live {
+      background: rgba(0, 230, 118, 0.12);
+      border: 1px solid rgba(0, 230, 118, 0.3);
+      color: var(--circuit-green);
+    }
+
+    .status-badge.building {
+      background: var(--electric-blue-glow);
+      border: 1px solid var(--electric-blue-border);
+      color: var(--electric-blue);
+    }
+
+    .status-badge.planned {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      color: var(--mid-gray);
+    }
+
+    .project-card h3 {
+      font-family: var(--font-heading);
+      font-size: 1.3em;
+      font-weight: 600;
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+
+    .project-card .card-description {
+      color: var(--text-secondary);
+      font-size: 0.9em;
+      line-height: 1.65;
+      flex-grow: 1;
+    }
+
+    /* What I learned */
+    .project-card .learned {
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid var(--card-border);
+    }
+
+    .project-card .learned-label {
+      font-family: var(--font-mono);
+      font-size: 0.7em;
+      color: var(--mid-gray);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+
+    .project-card .learned-text {
+      font-size: 0.85em;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    .project-card .skills-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .project-card .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 20px;
+      font-size: 0.88em;
+      font-weight: 600;
+      color: var(--electric-blue);
+    }
+
+    .project-card .card-link .arrow {
+      transition: transform var(--transition-fast);
+    }
+
+    .project-card:hover .card-link .arrow {
+      transform: translateX(4px);
+    }
+
+    .project-card.coming-soon {
+      opacity: 0.55;
+    }
+
+    /* Process section */
+    .process-section {
+      border-top: 1px solid var(--card-border);
+    }
+
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .process-step {
+      text-align: center;
+      position: relative;
+    }
+
+    .process-step .step-number {
+      font-family: var(--font-heading);
+      font-size: 2.4em;
+      font-weight: 700;
+      color: var(--electric-blue);
+      opacity: 0.2;
+      margin-bottom: 8px;
+    }
+
+    .process-step h4 {
+      font-family: var(--font-heading);
+      font-size: 1em;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .process-step p {
+      font-size: 0.85em;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* Connector lines between steps */
+    .process-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 28px;
+      right: -12px;
+      width: 24px;
+      height: 2px;
+      background: var(--card-border);
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .projects-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .project-card.featured,
+      .project-card.full-width {
+        grid-column: span 1;
+      }
+
+      .process-steps {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .process-step::after { display: none; }
+    }
+
+    @media (max-width: 600px) {
+      .process-steps {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-bar {
+        gap: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== NAVIGATION ========== -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Short <span class="zap">&#9889;</span> Circuit</a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="projects.html" class="active">Projects</a></li>
+        <li><a href="newsletter.html">Newsletter</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="newsletter.html" class="nav-cta">Subscribe</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ========== PAGE HEADER ========== -->
+  <header class="page-header">
+    <div class="page-header-inner">
+      <div class="section-label">Portfolio</div>
+      <h1>Things I'm building<br>with AI</h1>
+      <p class="page-description">Every project starts the same way: "I have no idea how to do this." Then I sit down with Claude and figure it out. The projects are real. The learning is documented. Nothing is faked.</p>
+
+      <div class="stats-bar">
+        <div class="stat">
+          <span class="stat-number">1</span>
+          <span class="stat-label">project shipped</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number">3</span>
+          <span class="stat-label">in progress</span>
+        </div>
+        <div class="stat">
+          <span class="stat-number">100%</span>
+          <span class="stat-label">built with AI</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========== PROJECTS GRID ========== -->
+  <section class="section" style="padding-top: 20px;">
+    <div class="section-inner">
+      <div class="projects-grid">
+
+        <!-- LIVE: Newsletter -->
+        <div class="project-card featured reveal">
+          <div class="card-accent gradient"></div>
+          <span class="status-badge live">&#9889; Live</span>
+          <span class="card-tag tag-blue"><span class="dot"></span> Newsletter</span>
+          <h3>Short Circuit Newsletter</h3>
+          <p class="card-description">
+            A weekly newsletter covering AI in manufacturing and electronics. Researched, written, and assembled using Claude as a co-author. Every issue includes an industry lead story, a hands-on Workbench experiment, a curated news roundup, and a transparent "How We Made This" section showing exactly how AI contributed to each piece.
+          </p>
+          <div class="learned">
+            <div class="learned-label">What I learned</div>
+            <p class="learned-text">"AI is a collaborator, not a replacement. The best output came from iterating back and forth — not from a single prompt. The 'How We Made This' transparency section turned out to be what people respond to most."</p>
+          </div>
+          <div class="skills-row">
+            <span class="skill-tag">Prompt Engineering</span>
+            <span class="skill-tag">AI Content Strategy</span>
+            <span class="skill-tag">HTML / CSS</span>
+            <span class="skill-tag">Editorial Workflow</span>
+            <span class="skill-tag">Claude</span>
+          </div>
+          <a href="newsletter.html" class="card-link">Read the newsletter <span class="arrow">&#8594;</span></a>
+        </div>
+
+        <!-- LIVE: This Website -->
+        <div class="project-card reveal reveal-delay-1">
+          <div class="card-accent blue"></div>
+          <span class="status-badge live">&#9889; Live</span>
+          <span class="card-tag tag-blue"><span class="dot"></span> Web Development</span>
+          <h3>This Website</h3>
+          <p class="card-description">
+            You're looking at it. Designed and coded entirely through conversation with Claude. Dark mode, responsive, scroll animations, bento grid — all built from a conversation that started with "I want a portfolio site."
+          </p>
+          <div class="skills-row">
+            <span class="skill-tag">HTML / CSS / JS</span>
+            <span class="skill-tag">Responsive Design</span>
+            <span class="skill-tag">Claude</span>
+          </div>
+          <a href="about.html" class="card-link">Read the story <span class="arrow">&#8594;</span></a>
+        </div>
+
+        <!-- COMING: RAG System -->
+        <div class="project-card coming-soon reveal reveal-delay-2">
+          <div class="card-accent green"></div>
+          <span class="status-badge planned">Planned</span>
+          <span class="card-tag tag-green"><span class="dot"></span> AI Engineering</span>
+          <h3>Ops Research Assistant</h3>
+          <p class="card-description">
+            A RAG-powered system that reads manufacturing SOPs, quality reports, and supplier specs, then answers questions in plain English. Built to show what happens when domain expertise meets AI engineering.
+          </p>
+          <div class="skills-row">
+            <span class="skill-tag">RAG</span>
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">Claude API</span>
+            <span class="skill-tag">Document Processing</span>
+          </div>
+        </div>
+
+        <!-- COMING: Data Dashboard -->
+        <div class="project-card coming-soon reveal reveal-delay-3">
+          <div class="card-accent amber"></div>
+          <span class="status-badge planned">Planned</span>
+          <span class="card-tag tag-amber"><span class="dot"></span> Data Analysis</span>
+          <h3>AI-Enhanced Data Dashboard</h3>
+          <p class="card-description">
+            Take messy manufacturing data — scrap rates, production volumes, quality metrics — and use AI to clean, analyze, and visualize it into exec-ready insights. From ugly spreadsheet to clear dashboard in one session.
+          </p>
+          <div class="skills-row">
+            <span class="skill-tag">Data Analysis</span>
+            <span class="skill-tag">Visualization</span>
+            <span class="skill-tag">Excel</span>
+            <span class="skill-tag">Claude</span>
+          </div>
+        </div>
+
+        <!-- COMING: Newsletter Automation -->
+        <div class="project-card coming-soon reveal reveal-delay-4">
+          <div class="card-accent blue"></div>
+          <span class="status-badge planned">Planned</span>
+          <span class="card-tag tag-blue"><span class="dot"></span> Automation</span>
+          <h3>Newsletter Automation Pipeline</h3>
+          <p class="card-description">
+            Using AI to build the workflow that creates the newsletter. Research, drafting, editing, layout — automated end to end. Meta? Yes. A case study in AI-powered content operations? Also yes.
+          </p>
+          <div class="skills-row">
+            <span class="skill-tag">Workflow Design</span>
+            <span class="skill-tag">Automation</span>
+            <span class="skill-tag">Prompt Engineering</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== HOW I BUILD ========== -->
+  <section class="section process-section">
+    <div class="section-inner">
+      <div class="section-label reveal">Process</div>
+      <h2 class="section-title reveal">How every project works</h2>
+      <p class="section-subtitle reveal">Same process every time. The AI helps at every step, but the curiosity and the decisions are mine.</p>
+
+      <div class="process-steps">
+        <div class="process-step reveal reveal-delay-1">
+          <div class="step-number">01</div>
+          <h4>Ask a question</h4>
+          <p>Every project starts with something I don't know how to do. That's the point &#8212; the question IS the content.</p>
+        </div>
+        <div class="process-step reveal reveal-delay-2">
+          <div class="step-number">02</div>
+          <h4>Build with AI</h4>
+          <p>I sit down with Claude and work through it. Prompt, iterate, break things, fix things. Record everything.</p>
+        </div>
+        <div class="process-step reveal reveal-delay-3">
+          <div class="step-number">03</div>
+          <h4>Document it</h4>
+          <p>The whole process goes into the newsletter and on video. What worked, what didn't, what I'd do differently.</p>
+        </div>
+        <div class="process-step reveal reveal-delay-4">
+          <div class="step-number">04</div>
+          <h4>Ship it</h4>
+          <p>Put it live. Add it to the portfolio. Move on to the next question. Repeat.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-logo">Short <span class="zap">&#9889;</span> Circuit</span>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="newsletter.html">Newsletter</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="https://tiktok.com/@shortcircuitproject" target="_blank" rel="noopener">TikTok</a></li>
+        <li><a href="https://linkedin.com/in/richbarden" target="_blank" rel="noopener">LinkedIn</a></li>
+      </ul>
+      <span class="footer-copy">&copy; 2026 Short Circuit Project</span>
+    </div>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>

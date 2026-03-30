@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — Short Circuit</title>
+  <meta name="description" content="Meet Rich — an operations professional who decided to learn AI by building real projects and documenting the entire journey.">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* ============================================
+       ABOUT PAGE — SPECIFIC STYLES
+    ============================================ */
+
+    /* Story section */
+    .story-section { border-top: 1px solid var(--card-border); }
+
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 60px;
+      align-items: start;
+    }
+
+    .story-content h2 {
+      font-family: var(--font-heading);
+      font-size: 1.8em;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 24px;
+      line-height: 1.2;
+    }
+
+    .story-content p {
+      color: var(--text-secondary);
+      font-size: 1em;
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    .story-content p strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .story-content .highlight-text {
+      color: var(--electric-blue);
+      font-weight: 500;
+    }
+
+    .story-mascot {
+      position: sticky;
+      top: 120px;
+      text-align: center;
+    }
+
+    .story-mascot img {
+      width: 260px;
+      margin: 0 auto;
+      filter: drop-shadow(0 0 30px rgba(0, 166, 251, 0.1));
+    }
+
+    .story-mascot .mascot-caption {
+      font-family: var(--font-mono);
+      font-size: 0.78em;
+      color: var(--mid-gray);
+      margin-top: 16px;
+    }
+
+    /* Skills section */
+    .skills-section { border-top: 1px solid var(--card-border); }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .skill-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 28px 24px;
+      transition: border-color var(--transition-smooth);
+    }
+
+    .skill-card:hover {
+      border-color: var(--card-hover-border);
+    }
+
+    .skill-card .skill-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .skill-card h4 {
+      font-family: var(--font-heading);
+      font-size: 1.05em;
+      font-weight: 600;
+    }
+
+    .skill-card .skill-level {
+      font-family: var(--font-mono);
+      font-size: 0.72em;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .skill-level.veteran {
+      background: rgba(0, 230, 118, 0.12);
+      color: var(--circuit-green);
+    }
+
+    .skill-level.learning {
+      background: var(--electric-blue-glow);
+      color: var(--electric-blue);
+    }
+
+    .skill-level.exploring {
+      background: rgba(255, 179, 0, 0.12);
+      color: var(--warm-amber);
+    }
+
+    .skill-card p {
+      font-size: 0.88em;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* Meet Shorty section */
+    .shorty-section { border-top: 1px solid var(--card-border); }
+
+    .shorty-card {
+      background: linear-gradient(135deg, var(--deep-navy-light), var(--deep-navy));
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 48px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .shorty-card::before {
+      content: '';
+      position: absolute;
+      top: -30%;
+      right: -10%;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0, 166, 251, 0.05) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .shorty-intro {
+      max-width: 600px;
+      margin-bottom: 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .shorty-intro h2 {
+      font-family: var(--font-heading);
+      font-size: 2em;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+    }
+
+    .shorty-intro p {
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .shorty-poses {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .shorty-pose {
+      text-align: center;
+    }
+
+    .shorty-pose img {
+      width: 180px;
+      margin: 0 auto 16px;
+      filter: drop-shadow(0 0 20px rgba(0, 166, 251, 0.1));
+      transition: transform var(--transition-smooth);
+    }
+
+    .shorty-pose:hover img {
+      transform: scale(1.05);
+    }
+
+    .shorty-pose .pose-name {
+      font-family: var(--font-heading);
+      font-size: 1em;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .shorty-pose .pose-use {
+      font-size: 0.82em;
+      color: var(--mid-gray);
+      font-family: var(--font-mono);
+    }
+
+    /* Connect section */
+    .connect-section { border-top: 1px solid var(--card-border); }
+
+    .connect-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .connect-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 28px 24px;
+      text-align: center;
+      transition: border-color var(--transition-smooth), transform var(--transition-fast);
+      display: block;
+      color: var(--text-primary);
+    }
+
+    .connect-card:hover {
+      border-color: var(--card-hover-border);
+      transform: translateY(-4px);
+      color: var(--text-primary);
+    }
+
+    .connect-card .connect-icon {
+      font-size: 2em;
+      margin-bottom: 12px;
+    }
+
+    .connect-card h4 {
+      font-family: var(--font-heading);
+      font-size: 1.05em;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .connect-card p {
+      font-size: 0.85em;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .story-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .story-mascot {
+        position: static;
+        order: -1;
+      }
+
+      .story-mascot img { width: 200px; }
+
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .shorty-poses {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .connect-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .shorty-card { padding: 28px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========== NAVIGATION ========== -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Short <span class="zap">&#9889;</span> Circuit</a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="newsletter.html">Newsletter</a></li>
+        <li><a href="about.html" class="active">About</a></li>
+        <li><a href="newsletter.html" class="nav-cta">Subscribe</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ========== PAGE HEADER ========== -->
+  <header class="page-header">
+    <div class="page-header-inner">
+      <div class="section-label">About</div>
+      <h1>The person behind<br>the project</h1>
+      <p class="page-description">Short Circuit is built by one person learning AI the hard way &#8212; by doing real things with it and telling the truth about how it goes.</p>
+    </div>
+  </header>
+
+  <!-- ========== THE STORY ========== -->
+  <section class="section story-section">
+    <div class="section-inner">
+      <div class="story-grid">
+        <div class="story-content reveal">
+          <h2>Hi, I'm Rich.</h2>
+
+          <p>I spent the better part of a decade in <strong>manufacturing operations and strategy</strong>. Supply chains, production lines, quality systems, global expansion &#8212; the whole world of making physical things at scale. I worked my way from operations roles to the board of directors of an electronics manufacturer, overseeing international expansion and capital allocation.</p>
+
+          <p>And then I hit a wall.</p>
+
+          <p>The work stopped being interesting. The problems felt recycled. I was good at my job, but I wasn't <strong>excited</strong> about it anymore. And when AI tools started getting genuinely useful &#8212; not "novelty toy" useful but "this changes how work gets done" useful &#8212; I realized I had a choice: watch from the sidelines, or dive in headfirst and see what happens.</p>
+
+          <p><span class="highlight-text">I chose headfirst.</span></p>
+
+          <p>Short Circuit started as a learning project. I gave myself a simple rule: <strong>learn AI by building real things with it, and document every step publicly.</strong> No courses. No certifications. Just hands-on projects, a weekly newsletter, video content, and radical transparency about what works and what doesn't.</p>
+
+          <p>The co-pilot for all of this is Claude, Anthropic's AI. Every project, every newsletter issue, every piece of this website &#8212; built through conversation with an AI. I prompt. We iterate. Things break. We fix them. I learn something. I write about it. Repeat.</p>
+
+          <p>That's Short Circuit. <strong>One person, one AI, real projects, no faking it.</strong></p>
+
+          <p>If you're curious about AI but don't know where to start, or you're an operations professional wondering how this stuff applies to your world &#8212; you're who I'm building this for. Subscribe to the newsletter, follow along on TikTok, and watch what happens when a curious person with zero AI background decides to figure it out live.</p>
+        </div>
+
+        <div class="story-mascot reveal reveal-delay-2">
+          <img src="assets/robot_wrench.png" alt="Shorty the robot mascot holding a wrench">
+          <div class="mascot-caption">Shorty, hard at work</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== SKILLS ========== -->
+  <section class="section skills-section">
+    <div class="section-inner">
+      <div class="section-label reveal">Background</div>
+      <h2 class="section-title reveal">What I bring to this</h2>
+      <p class="section-subtitle reveal">A mix of things I already knew and things I'm learning in public. The whole point is the gap between them.</p>
+
+      <div class="skills-grid">
+        <div class="skill-card reveal reveal-delay-1">
+          <div class="skill-header">
+            <h4>Operations &amp; Strategy</h4>
+            <span class="skill-level veteran">Veteran</span>
+          </div>
+          <p>Supply chain, manufacturing, quality systems, global ops, capital allocation. A decade of making physical things at scale.</p>
+        </div>
+
+        <div class="skill-card reveal reveal-delay-2">
+          <div class="skill-header">
+            <h4>Data &amp; Analytics</h4>
+            <span class="skill-level veteran">Veteran</span>
+          </div>
+          <p>Excel power user. Costing databases, dashboards, operational metrics. R and SPSS for statistical analysis. I think in spreadsheets.</p>
+        </div>
+
+        <div class="skill-card reveal reveal-delay-3">
+          <div class="skill-header">
+            <h4>AI &amp; Prompt Engineering</h4>
+            <span class="skill-level learning">Learning</span>
+          </div>
+          <p>Building real things with Claude. RAG systems, content automation, structured outputs. Learning by doing, documenting as I go.</p>
+        </div>
+
+        <div class="skill-card reveal reveal-delay-4">
+          <div class="skill-header">
+            <h4>Web Development</h4>
+            <span class="skill-level learning">Learning</span>
+          </div>
+          <p>HTML, CSS, JavaScript &#8212; working knowledge. This entire website was built in conversation with AI. Learning the modern web by building on it.</p>
+        </div>
+
+        <div class="skill-card reveal">
+          <div class="skill-header">
+            <h4>Content &amp; Design</h4>
+            <span class="skill-level learning">Learning</span>
+          </div>
+          <p>Newsletter writing, InDesign, video content creation. Figuring out how to turn technical work into stories people want to follow.</p>
+        </div>
+
+        <div class="skill-card reveal reveal-delay-1">
+          <div class="skill-header">
+            <h4>Video Production</h4>
+            <span class="skill-level exploring">Exploring</span>
+          </div>
+          <p>Total beginner. iPhone + tripod + CapCut. Learning in public on TikTok. The raw, unpolished footage is part of the authenticity.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== MEET SHORTY ========== -->
+  <section class="section shorty-section">
+    <div class="section-inner">
+      <div class="shorty-card reveal">
+        <div class="shorty-intro">
+          <div class="section-label">The Mascot</div>
+          <h2>Meet Shorty</h2>
+          <p>Every project needs a mascot, and Shorty is ours. A little robot with a lot of personality &#8212; cheerful, curious, and occasionally getting zapped by things beyond its understanding. Sound familiar?</p>
+        </div>
+
+        <div class="shorty-poses">
+          <div class="shorty-pose reveal reveal-delay-1">
+            <img src="assets/robot_waving.png" alt="Shorty waving hello">
+            <div class="pose-name">Waving</div>
+            <div class="pose-use">The welcome committee</div>
+          </div>
+          <div class="shorty-pose reveal reveal-delay-2">
+            <img src="assets/robot_wrench.png" alt="Shorty holding a wrench">
+            <div class="pose-name">Building</div>
+            <div class="pose-use">Hard at work on a project</div>
+          </div>
+          <div class="shorty-pose reveal reveal-delay-3">
+            <img src="assets/robot_zapped.png" alt="Shorty getting zapped with electricity">
+            <div class="pose-name">Zapped</div>
+            <div class="pose-use">When things go wrong</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CONNECT ========== -->
+  <section class="section connect-section">
+    <div class="section-inner">
+      <div class="section-label reveal">Connect</div>
+      <h2 class="section-title reveal">Find me elsewhere</h2>
+      <p class="section-subtitle reveal">Short Circuit lives across a few platforms. Here's where to find the different pieces.</p>
+
+      <div class="connect-grid">
+        <a href="newsletter.html" class="connect-card reveal reveal-delay-1">
+          <div class="connect-icon">&#9993;</div>
+          <h4>Newsletter</h4>
+          <p>The weekly deep dive. AI in manufacturing, hands-on experiments, full transparency.</p>
+        </a>
+
+        <a href="https://tiktok.com/@shortcircuitproject" target="_blank" rel="noopener" class="connect-card reveal reveal-delay-2">
+          <div class="connect-icon">&#127909;</div>
+          <h4>TikTok</h4>
+          <p>Short clips from build sessions, reactions, tips, and the unfiltered journey.</p>
+        </a>
+
+        <a href="https://linkedin.com/in/richbarden" target="_blank" rel="noopener" class="connect-card reveal reveal-delay-3">
+          <div class="connect-icon">&#128188;</div>
+          <h4>LinkedIn</h4>
+          <p>Professional updates, project announcements, and connecting with other AI builders.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-logo">Short <span class="zap">&#9889;</span> Circuit</span>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="newsletter.html">Newsletter</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="https://tiktok.com/@shortcircuitproject" target="_blank" rel="noopener">TikTok</a></li>
+        <li><a href="https://linkedin.com/in/richbarden" target="_blank" rel="noopener">LinkedIn</a></li>
+      </ul>
+      <span class="footer-copy">&copy; 2026 Short Circuit Project</span>
+    </div>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
