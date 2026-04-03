@@ -314,12 +314,12 @@
 
       <div class="stats-bar">
         <div class="stat">
-          <span class="stat-number">1</span>
-          <span class="stat-label">project shipped</span>
+          <span class="stat-number">4</span>
+          <span class="stat-label">projects shipped</span>
         </div>
         <div class="stat">
-          <span class="stat-number">3</span>
-          <span class="stat-label">in progress</span>
+          <span class="stat-number">0</span>
+          <span class="stat-label">days of experience</span>
         </div>
         <div class="stat">
           <span class="stat-number">100%</span>
@@ -334,93 +334,90 @@
     <div class="section-inner">
       <div class="projects-grid">
 
-        <!-- LIVE: Newsletter -->
+        <!-- LIVE: Image & Logo Generation -->
         <div class="project-card featured reveal">
           <div class="card-accent gradient"></div>
           <span class="status-badge live">&#9889; Live</span>
-          <span class="card-tag tag-blue"><span class="dot"></span> Newsletter</span>
-          <h3>Short Circuit Newsletter</h3>
+          <span class="card-tag tag-green"><span class="dot"></span> AI Image Generation</span>
+          <h3>Image &amp; Logo Generation</h3>
           <p class="card-description">
-            A weekly newsletter covering AI and robotics in manufacturing and small business. Researched, written, and assembled using Claude as a co-author. Every issue includes an industry lead story, a hands-on Workbench experiment, a curated news roundup, and a transparent "How We Made This" section showing exactly how AI contributed to each piece.
+            Created the entire Short Circuit visual identity using AI — including Shorty, the robot mascot, and the project logo. Started in ChatGPT with image generation to develop the character concept, poses, and brand assets, then used Claude to build the brand system around them. A real-world case study in using the right AI tool for the right job.
           </p>
           <div class="learned">
             <div class="learned-label">What I learned</div>
-            <p class="learned-text">"AI is a collaborator, not a replacement. The best output came from iterating back and forth — not from a single prompt. The 'How We Made This' transparency section turned out to be what people respond to most."</p>
+            <p class="learned-text">"Different AI tools have different strengths. ChatGPT crushed image generation while Claude was better for strategy and code. The best results came from knowing which tool to reach for — not from forcing one tool to do everything."</p>
           </div>
           <div class="skills-row">
+            <span class="skill-tag">AI Image Generation</span>
             <span class="skill-tag">Prompt Engineering</span>
-            <span class="skill-tag">AI Content Strategy</span>
-            <span class="skill-tag">HTML / CSS</span>
-            <span class="skill-tag">Editorial Workflow</span>
+            <span class="skill-tag">Brand Design</span>
+            <span class="skill-tag">ChatGPT</span>
+            <span class="skill-tag">Claude</span>
+          </div>
+        </div>
+
+        <!-- LIVE: Website Creation -->
+        <div class="project-card reveal reveal-delay-1">
+          <div class="card-accent blue"></div>
+          <span class="status-badge live">&#9889; Live</span>
+          <span class="card-tag tag-blue"><span class="dot"></span> Web Development</span>
+          <h3>Website Creation</h3>
+          <p class="card-description">
+            You're looking at it. Designed and coded entirely through conversation with Claude — zero web development experience going in. Dark mode, responsive layout, scroll animations, bento grid, Vercel deployment. All built from a conversation that started with "I want a portfolio site."
+          </p>
+          <div class="learned">
+            <div class="learned-label">What I learned</div>
+            <p class="learned-text">"You don't need to know how to code to build a real website. You need to know what you want and be willing to iterate. Claude handled the HTML, CSS, and JavaScript — I handled the vision and the decisions."</p>
+          </div>
+          <div class="skills-row">
+            <span class="skill-tag">HTML / CSS / JS</span>
+            <span class="skill-tag">Responsive Design</span>
+            <span class="skill-tag">Vercel Deployment</span>
+            <span class="skill-tag">Claude</span>
+          </div>
+        </div>
+
+        <!-- LIVE: Newsletter Launch -->
+        <div class="project-card reveal reveal-delay-2">
+          <div class="card-accent green"></div>
+          <span class="status-badge live">&#9889; Live</span>
+          <span class="card-tag tag-green"><span class="dot"></span> Content &amp; Email</span>
+          <h3>Newsletter Launch</h3>
+          <p class="card-description">
+            Built and launched a weekly newsletter from scratch — content strategy, email-compatible HTML template, Buttondown platform setup, and subscriber pipeline. Every issue covers AI and robotics news, includes a hands-on learning exercise, and shows exactly how AI helped make it.
+          </p>
+          <div class="learned">
+            <div class="learned-label">What I learned</div>
+            <p class="learned-text">"Email HTML is a completely different beast from web HTML. AI helped me navigate the quirks — table-based layouts, inline styles, Outlook conditionals — but the editorial voice had to be mine."</p>
+          </div>
+          <div class="skills-row">
+            <span class="skill-tag">Email HTML</span>
+            <span class="skill-tag">Content Strategy</span>
+            <span class="skill-tag">Buttondown</span>
+            <span class="skill-tag">Prompt Engineering</span>
             <span class="skill-tag">Claude</span>
           </div>
           <a href="newsletter.html" class="card-link">Read the newsletter <span class="arrow">&#8594;</span></a>
         </div>
 
-        <!-- LIVE: This Website -->
-        <div class="project-card reveal reveal-delay-1">
-          <div class="card-accent blue"></div>
-          <span class="status-badge live">&#9889; Live</span>
-          <span class="card-tag tag-blue"><span class="dot"></span> Web Development</span>
-          <h3>This Website</h3>
-          <p class="card-description">
-            You're looking at it. Designed and coded entirely through conversation with Claude. Dark mode, responsive, scroll animations, bento grid — all built from a conversation that started with "I want a portfolio site."
-          </p>
-          <div class="skills-row">
-            <span class="skill-tag">HTML / CSS / JS</span>
-            <span class="skill-tag">Responsive Design</span>
-            <span class="skill-tag">Claude</span>
-          </div>
-          <a href="about.html" class="card-link">Read the story <span class="arrow">&#8594;</span></a>
-        </div>
-
-        <!-- COMING: RAG System -->
-        <div class="project-card coming-soon reveal reveal-delay-2">
-          <div class="card-accent green"></div>
-          <span class="status-badge planned">Planned</span>
-          <span class="card-tag tag-green"><span class="dot"></span> AI Engineering</span>
-          <h3>Ops Research Assistant</h3>
-          <p class="card-description">
-            A RAG-powered system that reads manufacturing SOPs, quality reports, and supplier specs, then answers questions in plain English. Built to show what happens when domain expertise meets AI engineering.
-          </p>
-          <div class="skills-row">
-            <span class="skill-tag">RAG</span>
-            <span class="skill-tag">Python</span>
-            <span class="skill-tag">Claude API</span>
-            <span class="skill-tag">Document Processing</span>
-          </div>
-        </div>
-
-        <!-- COMING: Data Dashboard -->
-        <div class="project-card coming-soon reveal reveal-delay-3">
+        <!-- LIVE: Social Media Launch -->
+        <div class="project-card reveal reveal-delay-3">
           <div class="card-accent amber"></div>
-          <span class="status-badge planned">Planned</span>
-          <span class="card-tag tag-amber"><span class="dot"></span> Data Analysis</span>
-          <h3>AI-Enhanced Data Dashboard</h3>
+          <span class="status-badge live">&#9889; Live</span>
+          <span class="card-tag tag-amber"><span class="dot"></span> Social Media</span>
+          <h3>Social Media Launch</h3>
           <p class="card-description">
-            Take messy manufacturing data — scrap rates, production volumes, quality metrics — and use AI to clean, analyze, and visualize it into exec-ready insights. From ugly spreadsheet to clear dashboard in one session.
+            Launched a multi-platform social presence across LinkedIn, TikTok, and Reddit — all planned and coordinated with AI. Content strategy, posting cadence, platform-native copy, and short-form video scripts built from scratch with no prior social media experience.
           </p>
-          <div class="skills-row">
-            <span class="skill-tag">Data Analysis</span>
-            <span class="skill-tag">Visualization</span>
-            <span class="skill-tag">Excel</span>
-            <span class="skill-tag">Claude</span>
+          <div class="learned">
+            <div class="learned-label">What I learned</div>
+            <p class="learned-text">"Each platform has its own language. What works on LinkedIn bombs on TikTok. AI helped me learn the differences fast, but the authenticity had to come from actually doing the thing — not just talking about it."</p>
           </div>
-        </div>
-
-        <!-- COMING: Newsletter Automation -->
-        <div class="project-card coming-soon reveal reveal-delay-4">
-          <div class="card-accent blue"></div>
-          <span class="status-badge planned">Planned</span>
-          <span class="card-tag tag-blue"><span class="dot"></span> Automation</span>
-          <h3>Newsletter Automation Pipeline</h3>
-          <p class="card-description">
-            Using AI to build the workflow that creates the newsletter. Research, drafting, editing, layout — automated end to end. Meta? Yes. A case study in AI-powered content operations? Also yes.
-          </p>
           <div class="skills-row">
-            <span class="skill-tag">Workflow Design</span>
-            <span class="skill-tag">Automation</span>
-            <span class="skill-tag">Prompt Engineering</span>
+            <span class="skill-tag">Content Strategy</span>
+            <span class="skill-tag">Short-Form Video</span>
+            <span class="skill-tag">Social Copywriting</span>
+            <span class="skill-tag">Claude</span>
           </div>
         </div>
 
