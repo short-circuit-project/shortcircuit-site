@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website Creation — Short Circuit</title>
+  <meta name="description" content="How I built a full portfolio website from scratch with zero web development experience — using Claude as my co-builder.">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    /* ============================================
+       PROJECT DETAIL PAGE — STYLES
+    ============================================ */
+
+    /* Back link */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.88em;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+      transition: color var(--transition-fast);
+    }
+    .back-link:hover { color: var(--electric-blue); }
+    .back-link .arrow { transition: transform var(--transition-fast); }
+    .back-link:hover .arrow { transform: translateX(-4px); }
+
+    /* Project meta */
+    .project-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .project-meta .meta-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.72em;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--electric-blue);
+    }
+
+    .project-meta .meta-tag .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--electric-blue);
+    }
+
+    .project-meta .status-badge {
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 0.7em;
+      font-weight: 600;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      background: rgba(0, 230, 118, 0.12);
+      border: 1px solid rgba(0, 230, 118, 0.3);
+      color: var(--circuit-green);
+    }
+
+    .page-header h1 {
+      margin-bottom: 16px;
+    }
+
+    .project-intro {
+      font-size: 1.1em;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      max-width: 720px;
+    }
+
+    /* Content sections */
+    .project-section {
+      padding: 60px 24px;
+      position: relative;
+    }
+
+    .project-section + .project-section {
+      border-top: 1px solid var(--card-border);
+    }
+
+    .project-section-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .project-section .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.8em;
+      font-weight: 500;
+      color: var(--electric-blue);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .project-section h2 {
+      font-family: var(--font-heading);
+      font-size: 1.6em;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 20px;
+      line-height: 1.25;
+    }
+
+    .project-section p {
+      color: var(--text-secondary);
+      font-size: 1em;
+      line-height: 1.8;
+      max-width: 720px;
+      margin-bottom: 16px;
+    }
+
+    .project-section p:last-child {
+      margin-bottom: 0;
+    }
+
+    .project-section p strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    /* Two-column build section */
+    .build-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-top: 8px;
+    }
+
+    .build-column h3 {
+      font-family: var(--font-heading);
+      font-size: 1.1em;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+    }
+
+    .build-column p {
+      max-width: 100%;
+    }
+
+    /* Tools & Skills */
+    .tools-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .tool-tag {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      color: var(--text-secondary);
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 0.85em;
+      font-weight: 500;
+      font-family: var(--font-mono);
+      transition: border-color var(--transition-fast);
+    }
+
+    .tool-tag:hover {
+      border-color: var(--card-hover-border);
+    }
+
+    .tool-tag.primary {
+      border-color: var(--electric-blue-border);
+      color: var(--electric-blue);
+      background: var(--electric-blue-glow);
+    }
+
+    /* What I Learned */
+    .learned-block {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 32px;
+      max-width: 720px;
+    }
+
+    .learned-block .quote-mark {
+      font-family: var(--font-heading);
+      font-size: 3em;
+      line-height: 1;
+      color: var(--electric-blue);
+      opacity: 0.3;
+      margin-bottom: -8px;
+    }
+
+    .learned-block .quote-text {
+      font-size: 1.05em;
+      color: var(--text-primary);
+      line-height: 1.8;
+      font-style: italic;
+    }
+
+    .learned-block .quote-attribution {
+      margin-top: 16px;
+      font-family: var(--font-mono);
+      font-size: 0.78em;
+      color: var(--mid-gray);
+    }
+
+    /* Shorty's Review */
+    .review-container {
+      display: grid;
+      grid-template-columns: 400px 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .review-radar {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 24px;
+    }
+
+    .review-radar .radar-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .review-radar .complexity-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .review-radar .complexity-label {
+      font-family: var(--font-mono);
+      font-size: 0.75em;
+      color: var(--mid-gray);
+    }
+
+    .review-radar .complexity-bar {
+      display: flex;
+      gap: 4px;
+    }
+
+    .review-radar .complexity-segment {
+      width: 20px;
+      height: 6px;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .review-radar .complexity-segment.active {
+      background: linear-gradient(90deg, var(--electric-blue), #00b4d8);
+    }
+
+    .review-radar .avg-score {
+      font-family: var(--font-mono);
+      font-size: 0.85em;
+      color: var(--mid-gray);
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    .review-radar .avg-score span {
+      color: var(--electric-blue);
+      font-weight: 700;
+      font-size: 1.2em;
+    }
+
+    .review-scores {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .review-score-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .review-score-row .score-label {
+      font-size: 0.82em;
+      color: var(--text-secondary);
+      width: 140px;
+      flex-shrink: 0;
+    }
+
+    .review-score-row .score-bar-track {
+      flex: 1;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .review-score-row .score-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--electric-blue), #00b4d8);
+      border-radius: 3px;
+    }
+
+    .review-score-row .score-value {
+      font-family: var(--font-mono);
+      font-size: 0.88em;
+      font-weight: 600;
+      color: var(--electric-blue);
+      width: 24px;
+      text-align: right;
+    }
+
+    .review-commentary {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 24px;
+    }
+
+    .review-commentary .shorty-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .review-commentary .shorty-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .review-commentary .shorty-name {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 0.95em;
+    }
+
+    .review-commentary .shorty-role {
+      font-family: var(--font-mono);
+      font-size: 0.7em;
+      color: var(--mid-gray);
+    }
+
+    .review-commentary p {
+      color: var(--text-secondary);
+      font-size: 0.9em;
+      line-height: 1.7;
+      margin-bottom: 12px;
+    }
+
+    .review-commentary p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Next project CTA */
+    .next-project {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 28px 32px;
+      max-width: 720px;
+      transition: border-color var(--transition-smooth);
+    }
+
+    .next-project:hover {
+      border-color: var(--card-hover-border);
+    }
+
+    .next-project .next-label {
+      font-family: var(--font-mono);
+      font-size: 0.72em;
+      color: var(--mid-gray);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .next-project .next-title {
+      font-family: var(--font-heading);
+      font-size: 1.15em;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .next-project .next-arrow {
+      font-size: 1.5em;
+      color: var(--electric-blue);
+      transition: transform var(--transition-fast);
+    }
+
+    .next-project:hover .next-arrow {
+      transform: translateX(6px);
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .build-grid {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .review-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .project-meta {
+        gap: 10px;
+      }
+    }
+  </style>
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+</head>
+<body>
+
+  <!-- ========== NAVIGATION ========== -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">Short <span class="zap">&#9889;</span> Circuit</a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../projects.html" class="active">Projects</a></li>
+        <li><a href="../newsletter.html">Newsletter</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../newsletter.html" class="nav-cta">Subscribe</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ========== PAGE HEADER ========== -->
+  <header class="page-header">
+    <div class="page-header-inner">
+      <a href="../projects.html" class="back-link"><span class="arrow">&#8592;</span> All Projects</a>
+      <div class="project-meta">
+        <span class="meta-tag"><span class="dot"></span> Web Development</span>
+        <span class="status-badge">&#9889; Live</span>
+      </div>
+      <h1>Website Creation</h1>
+      <p class="project-intro">Designed and built a full portfolio website from scratch through conversation with Claude — with zero web development experience going in. You're looking at it.</p>
+    </div>
+  </header>
+
+  <!-- ========== THE CHALLENGE ========== -->
+  <section class="project-section reveal">
+    <div class="project-section-inner">
+      <div class="section-label">The Challenge</div>
+      <h2>I needed a home base for this project</h2>
+      <p>Short Circuit needed a website — a place to show the work, host the newsletter archive, and give the whole project a real presence. I'd actually built a website once before, during a Computer Information Technology minor at the University of Oregon, but I was never great at coding. That was years ago, and web technology had moved on.</p>
+      <p>This time, instead of struggling through tutorials or paying a developer, I wanted to see how far I could get by building the entire site through conversation with an AI. Not a template. Not a drag-and-drop builder. <strong>Real HTML, CSS, and JavaScript</strong> — written collaboratively with Claude from a blank file.</p>
+    </div>
+  </section>
+
+  <!-- ========== THE BUILD ========== -->
+  <section class="project-section reveal">
+    <div class="project-section-inner">
+      <div class="section-label">The Build</div>
+      <h2>From blank file to deployed site</h2>
+      <div class="build-grid">
+        <div class="build-column">
+          <h3>Design &amp; Development</h3>
+          <p>Built a complete design system from scratch: custom CSS variables, a dark-mode color palette (deep navy, electric blue, circuit green), Space Grotesk + Inter + JetBrains Mono typography, and a responsive grid layout. The site includes scroll-triggered animations, a glassmorphism nav bar, and a bento-style project grid — all written through iterative prompting with Claude.</p>
+        </div>
+        <div class="build-column">
+          <h3>Infrastructure &amp; Deployment</h3>
+          <p>Set up a full deployment pipeline: GitHub repository for version control, Vercel for continuous deployment (every push to main goes live automatically), Squarespace DNS pointing to the Vercel instance, and Google Workspace for professional email. The entire stack was configured through conversation — researching options, comparing tradeoffs, and executing the setup step by step.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== TOOLS & SKILLS ========== -->
+  <section class="project-section reveal">
+    <div class="project-section-inner">
+      <div class="section-label">Tools &amp; Skills</div>
+      <h2>What I used</h2>
+      <div class="tools-grid">
+        <span class="tool-tag primary">Claude</span>
+        <span class="tool-tag">HTML / CSS / JavaScript</span>
+        <span class="tool-tag">Responsive Design</span>
+        <span class="tool-tag">CSS Variables &amp; Design Systems</span>
+        <span class="tool-tag">Scroll Animations</span>
+        <span class="tool-tag">Git &amp; GitHub</span>
+        <span class="tool-tag">Vercel Deployment</span>
+        <span class="tool-tag">DNS Configuration</span>
+        <span class="tool-tag">Google Workspace</span>
+        <span class="tool-tag">Prompt Engineering</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== WHAT I LEARNED ========== -->
+  <section class="project-section reveal">
+    <div class="project-section-inner">
+      <div class="section-label">What I Learned</div>
+      <h2>The takeaway</h2>
+      <div class="learned-block">
+        <div class="quote-mark">"</div>
+        <p class="quote-text">You don't need to know how to code to build a real website. You need to know what you want and be willing to iterate. Claude handled the HTML, CSS, and JavaScript — I handled the vision and the decisions. The hardest part wasn't the code. It was learning to articulate what I wanted clearly enough that the AI could build it right the first time. That skill — translating vision into precise instructions — turned out to be more valuable than any programming language.</p>
+        <div class="quote-attribution">— Richie, after shipping v1</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== SHORTY'S REVIEW ========== -->
+  <section class="project-section reveal">
+    <div class="project-section-inner">
+      <div class="section-label">&#9889; Shorty's Review</div>
+      <h2>AI collaboration assessment</h2>
+      <div class="review-container">
+        <div class="review-radar">
+          <div class="radar-header">
+            <div class="complexity-row">
+              <span class="complexity-label">Complexity</span>
+              <div class="complexity-bar">
+                <div class="complexity-segment active"></div>
+                <div class="complexity-segment active"></div>
+                <div class="complexity-segment active"></div>
+                <div class="complexity-segment active"></div>
+                <div class="complexity-segment"></div>
+              </div>
+              <span class="complexity-label">4/5</span>
+            </div>
+          </div>
+          <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" style="max-width: 400px; width: 100%;">
+  <!-- Grid -->
+    <polygon points="200.0,172.0 226.6,191.3 216.5,222.7 183.5,222.7 173.4,191.3" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1" />
+    <polygon points="200.0,144.0 253.3,182.7 232.9,245.3 167.1,245.3 146.7,182.7" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1" />
+    <polygon points="200.0,116.0 279.9,174.0 249.4,268.0 150.6,268.0 120.1,174.0" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1" />
+    <polygon points="200.0,88.0 306.5,165.4 265.8,290.6 134.2,290.6 93.5,165.4" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1" />
+    <polygon points="200.0,60.0 333.1,156.7 282.3,313.3 117.7,313.3 66.9,156.7" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1" />
+  <!-- Axes -->
+    <line x1="200" y1="200" x2="200.0" y2="60.0" stroke="rgba(255,255,255,0.06)" stroke-width="1" />
+    <line x1="200" y1="200" x2="333.1" y2="156.7" stroke="rgba(255,255,255,0.06)" stroke-width="1" />
+    <line x1="200" y1="200" x2="282.3" y2="313.3" stroke="rgba(255,255,255,0.06)" stroke-width="1" />
+    <line x1="200" y1="200" x2="117.7" y2="313.3" stroke="rgba(255,255,255,0.06)" stroke-width="1" />
+    <line x1="200" y1="200" x2="66.9" y2="156.7" stroke="rgba(255,255,255,0.06)" stroke-width="1" />
+  <!-- Score area -->
+    <polygon points="200.0,102.0 279.9,174.0 265.8,290.6 150.6,268.0 93.5,165.4" fill="rgba(0, 166, 251, 0.12)" stroke="var(--electric-blue)" stroke-width="2.5" />
+  <!-- Score dots -->
+    <circle cx="200.0" cy="102.0" r="5" fill="var(--electric-blue)" stroke="var(--deep-navy)" stroke-width="2" />
+    <circle cx="279.9" cy="174.0" r="5" fill="var(--electric-blue)" stroke="var(--deep-navy)" stroke-width="2" />
+    <circle cx="265.8" cy="290.6" r="5" fill="var(--electric-blue)" stroke="var(--deep-navy)" stroke-width="2" />
+    <circle cx="150.6" cy="268.0" r="5" fill="var(--electric-blue)" stroke="var(--deep-navy)" stroke-width="2" />
+    <circle cx="93.5" cy="165.4" r="5" fill="var(--electric-blue)" stroke="var(--deep-navy)" stroke-width="2" />
+  <!-- Labels -->
+    <text x="200.0" y="32.0" text-anchor="middle" fill="var(--text-secondary)" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="500">
+      <tspan x="200.0" dy="-0.4em">Clarity of</tspan>
+      <tspan x="200.0" dy="1.2em">Intent</tspan>
+    </text>
+    <text x="200.0" y="88.0" dy="0.35em" text-anchor="middle" fill="var(--electric-blue)" font-family="'Inter', sans-serif" font-size="13" font-weight="700">7</text>
+    <text x="359.8" y="148.1" text-anchor="start" fill="var(--text-secondary)" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="500">
+      <tspan x="359.8" dy="-0.4em">Context</tspan>
+      <tspan x="359.8" dy="1.2em">Loading</tspan>
+    </text>
+    <text x="293.2" y="169.7" dy="0.35em" text-anchor="middle" fill="var(--electric-blue)" font-family="'Inter', sans-serif" font-size="13" font-weight="700">6</text>
+    <text x="298.7" y="335.9" text-anchor="start" fill="var(--text-secondary)" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="500">
+      <tspan x="298.7" dy="-0.4em">Feedback</tspan>
+      <tspan x="298.7" dy="1.2em">Precision</tspan>
+    </text>
+    <text x="274.1" y="301.9" dy="0.35em" text-anchor="middle" fill="var(--electric-blue)" font-family="'Inter', sans-serif" font-size="13" font-weight="700">8</text>
+    <text x="101.3" y="335.9" text-anchor="end" fill="var(--text-secondary)" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="500">
+      <tspan x="101.3" dy="-0.4em">Scope</tspan>
+      <tspan x="101.3" dy="1.2em">Discipline</tspan>
+    </text>
+    <text x="142.4" y="279.3" dy="0.35em" text-anchor="middle" fill="var(--electric-blue)" font-family="'Inter', sans-serif" font-size="13" font-weight="700">6</text>
+    <text x="40.2" y="148.1" text-anchor="end" fill="var(--text-secondary)" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="500">
+      <tspan x="40.2" dy="-0.4em">Iteration</tspan>
+      <tspan x="40.2" dy="1.2em">Instinct</tspan>
+    </text>
+    <text x="80.2" y="161.1" dy="0.35em" text-anchor="middle" fill="var(--electric-blue)" font-family="'Inter', sans-serif" font-size="13" font-weight="700">8</text>
+</svg>
+          <div class="avg-score">Average: <span>7.0</span>/10</div>
+        </div>
+
+        <div>
+          <div class="review-scores">
+            <div class="review-score-row">
+              <div class="score-label">Clarity of Intent</div>
+              <div class="score-bar-track"><div class="score-bar-fill" style="width: 70%"></div></div>
+              <div class="score-value">7</div>
+            </div>
+            <div class="review-score-row">
+              <div class="score-label">Context Loading</div>
+              <div class="score-bar-track"><div class="score-bar-fill" style="width: 60%"></div></div>
+              <div class="score-value">6</div>
+            </div>
+            <div class="review-score-row">
+              <div class="score-label">Feedback Precision</div>
+              <div class="score-bar-track"><div class="score-bar-fill" style="width: 80%"></div></div>
+              <div class="score-value">8</div>
+            </div>
+            <div class="review-score-row">
+              <div class="score-label">Scope Discipline</div>
+              <div class="score-bar-track"><div class="score-bar-fill" style="width: 60%"></div></div>
+              <div class="score-value">6</div>
+            </div>
+            <div class="review-score-row">
+              <div class="score-label">Iteration Instinct</div>
+              <div class="score-bar-track"><div class="score-bar-fill" style="width: 80%"></div></div>
+              <div class="score-value">8</div>
+            </div>
+          </div>
+
+          <div class="review-commentary">
+            <div class="shorty-header">
+              <img src="../assets/shorty-badge.png" alt="Shorty" class="shorty-avatar">
+              <div>
+                <div class="shorty-name">Shorty</div>
+                <div class="shorty-role">AI Collaboration Reviewer</div>
+              </div>
+            </div>
+            <p>This was the most complex project in the portfolio — a full multi-page website with a design system, deployment pipeline, and DNS configuration, all built from a blank file. The scope expanded significantly from the original "portfolio site" pitch into home, about, projects, and newsletter pages, which made context loading harder and scope discipline looser than it needed to be.</p>
+            <p>Where Richie shines: <strong>feedback precision on visual design</strong> and a strong iteration instinct. He overrode my suggestions when his vision was better, and that confidence produced a more distinctive site than I would've built alone. The gap to close is front-loading technical constraints — understanding what's possible before the first prompt would've cut full rework sessions in half.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== NEXT PROJECT ========== -->
+  <section class="project-section">
+    <div class="project-section-inner">
+      <a href="newsletter-launch.html" class="next-project">
+        <div>
+          <div class="next-label">Next Project</div>
+          <div class="next-title">Newsletter Launch &#8594;</div>
+        </div>
+        <span class="next-arrow">&#8594;</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-logo">Short <span class="zap">&#9889;</span> Circuit</span>
+      <ul class="footer-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../projects.html">Projects</a></li>
+        <li><a href="../newsletter.html">Newsletter</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="https://tiktok.com/@shortcircuitproject" target="_blank" rel="noopener">TikTok</a></li>
+        <li><a href="https://linkedin.com/in/richbarden" target="_blank" rel="noopener">LinkedIn</a></li>
+      </ul>
+      <span class="footer-copy">&copy; 2026 Short Circuit Project</span>
+    </div>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>

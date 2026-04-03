@@ -11,36 +11,10 @@
        PROJECTS PAGE — SPECIFIC STYLES
     ============================================ */
 
-    /* Stats bar */
-    .stats-bar {
-      display: flex;
-      gap: 32px;
-      margin-top: 32px;
-      flex-wrap: wrap;
-    }
-
-    .stats-bar .stat {
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
-    }
-
-    .stats-bar .stat-number {
-      font-family: var(--font-heading);
-      font-size: 2em;
-      font-weight: 700;
-      color: var(--electric-blue);
-    }
-
-    .stats-bar .stat-label {
-      font-size: 0.88em;
-      color: var(--text-secondary);
-    }
-
     /* Bento grid */
     .projects-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(2, 1fr);
       grid-auto-rows: auto;
       gap: 20px;
     }
@@ -67,7 +41,7 @@
     }
 
     .project-card.full-width {
-      grid-column: span 3;
+      grid-column: span 2;
     }
 
     /* Color accent on top */
@@ -279,9 +253,7 @@
         grid-template-columns: 1fr;
       }
 
-      .stats-bar {
-        gap: 20px;
-      }
+      /* removed stats bar */
     }
   </style>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -311,21 +283,6 @@
       <div class="section-label">Portfolio</div>
       <h1>Things I'm building<br>with AI</h1>
       <p class="page-description">Every project starts the same way: "I have no idea how to do this." Then I sit down with Claude and figure it out. The projects are real. The learning is documented. Nothing is faked.</p>
-
-      <div class="stats-bar">
-        <div class="stat">
-          <span class="stat-number">4</span>
-          <span class="stat-label">projects shipped</span>
-        </div>
-        <div class="stat">
-          <span class="stat-number">0</span>
-          <span class="stat-label">days of experience</span>
-        </div>
-        <div class="stat">
-          <span class="stat-number">100%</span>
-          <span class="stat-label">built with AI</span>
-        </div>
-      </div>
     </div>
   </header>
 
@@ -334,30 +291,8 @@
     <div class="section-inner">
       <div class="projects-grid">
 
-        <!-- LIVE: Image & Logo Generation -->
-        <div class="project-card featured reveal">
-          <div class="card-accent gradient"></div>
-          <span class="status-badge live">&#9889; Live</span>
-          <span class="card-tag tag-green"><span class="dot"></span> AI Image Generation</span>
-          <h3>Image &amp; Logo Generation</h3>
-          <p class="card-description">
-            Created the entire Short Circuit visual identity using AI — including Shorty, the robot mascot, and the project logo. Started in ChatGPT with image generation to develop the character concept, poses, and brand assets, then used Claude to build the brand system around them. A real-world case study in using the right AI tool for the right job.
-          </p>
-          <div class="learned">
-            <div class="learned-label">What I learned</div>
-            <p class="learned-text">"Different AI tools have different strengths. ChatGPT crushed image generation while Claude was better for strategy and code. The best results came from knowing which tool to reach for — not from forcing one tool to do everything."</p>
-          </div>
-          <div class="skills-row">
-            <span class="skill-tag">AI Image Generation</span>
-            <span class="skill-tag">Prompt Engineering</span>
-            <span class="skill-tag">Brand Design</span>
-            <span class="skill-tag">ChatGPT</span>
-            <span class="skill-tag">Claude</span>
-          </div>
-        </div>
-
-        <!-- LIVE: Website Creation -->
-        <div class="project-card reveal reveal-delay-1">
+        <!-- FEATURED: Website Creation -->
+        <a href="projects/website-creation.html" class="project-card featured reveal" style="text-decoration: none; color: inherit;">
           <div class="card-accent blue"></div>
           <span class="status-badge live">&#9889; Live</span>
           <span class="card-tag tag-blue"><span class="dot"></span> Web Development</span>
@@ -367,7 +302,7 @@
           </p>
           <div class="learned">
             <div class="learned-label">What I learned</div>
-            <p class="learned-text">"You don't need to know how to code to build a real website. You need to know what you want and be willing to iterate. Claude handled the HTML, CSS, and JavaScript — I handled the vision and the decisions."</p>
+            <p class="learned-text">"You don't need to know how to code to build a real website. You need to know what you want and be willing to iterate."</p>
           </div>
           <div class="skills-row">
             <span class="skill-tag">HTML / CSS / JS</span>
@@ -375,10 +310,11 @@
             <span class="skill-tag">Vercel Deployment</span>
             <span class="skill-tag">Claude</span>
           </div>
-        </div>
+          <span class="card-link">View project details <span class="arrow">&#8594;</span></span>
+        </a>
 
         <!-- LIVE: Newsletter Launch -->
-        <div class="project-card reveal reveal-delay-2">
+        <a href="projects/newsletter-launch.html" class="project-card reveal reveal-delay-1" style="text-decoration: none; color: inherit;">
           <div class="card-accent green"></div>
           <span class="status-badge live">&#9889; Live</span>
           <span class="card-tag tag-green"><span class="dot"></span> Content &amp; Email</span>
@@ -388,38 +324,38 @@
           </p>
           <div class="learned">
             <div class="learned-label">What I learned</div>
-            <p class="learned-text">"Email HTML is a completely different beast from web HTML. AI helped me navigate the quirks — table-based layouts, inline styles, Outlook conditionals — but the editorial voice had to be mine."</p>
+            <p class="learned-text">"Email HTML is a completely different beast from web HTML. AI helped me navigate the quirks, but the editorial voice had to be mine."</p>
           </div>
           <div class="skills-row">
             <span class="skill-tag">Email HTML</span>
             <span class="skill-tag">Content Strategy</span>
             <span class="skill-tag">Buttondown</span>
-            <span class="skill-tag">Prompt Engineering</span>
             <span class="skill-tag">Claude</span>
           </div>
-          <a href="newsletter.html" class="card-link">Read the newsletter <span class="arrow">&#8594;</span></a>
-        </div>
+          <span class="card-link">View project details <span class="arrow">&#8594;</span></span>
+        </a>
 
-        <!-- LIVE: Social Media Launch -->
-        <div class="project-card reveal reveal-delay-3">
-          <div class="card-accent amber"></div>
+        <!-- LIVE: Image & Logo Generation -->
+        <a href="projects/image-generation.html" class="project-card reveal reveal-delay-2" style="text-decoration: none; color: inherit;">
+          <div class="card-accent gradient"></div>
           <span class="status-badge live">&#9889; Live</span>
-          <span class="card-tag tag-amber"><span class="dot"></span> Social Media</span>
-          <h3>Social Media Launch</h3>
+          <span class="card-tag tag-green"><span class="dot"></span> AI Image Generation</span>
+          <h3>Image &amp; Logo Generation</h3>
           <p class="card-description">
-            Launched a multi-platform social presence across LinkedIn, TikTok, and Reddit — all planned and coordinated with AI. Content strategy, posting cadence, platform-native copy, and short-form video scripts built from scratch with no prior social media experience.
+            Created the entire Short Circuit visual identity using AI — including Shorty, the robot mascot. Started on Fiverr, iterated in ChatGPT, then used Claude to build the brand system. A case study in using the right AI tool for the right job.
           </p>
           <div class="learned">
             <div class="learned-label">What I learned</div>
-            <p class="learned-text">"Each platform has its own language. What works on LinkedIn bombs on TikTok. AI helped me learn the differences fast, but the authenticity had to come from actually doing the thing — not just talking about it."</p>
+            <p class="learned-text">"The best results came from knowing which tool to reach for — not from forcing one tool to do everything."</p>
           </div>
           <div class="skills-row">
-            <span class="skill-tag">Content Strategy</span>
-            <span class="skill-tag">Short-Form Video</span>
-            <span class="skill-tag">Social Copywriting</span>
-            <span class="skill-tag">Claude</span>
+            <span class="skill-tag">AI Image Generation</span>
+            <span class="skill-tag">Prompt Engineering</span>
+            <span class="skill-tag">Brand Design</span>
+            <span class="skill-tag">ChatGPT</span>
           </div>
-        </div>
+          <span class="card-link">View project details <span class="arrow">&#8594;</span></span>
+        </a>
 
       </div>
     </div>

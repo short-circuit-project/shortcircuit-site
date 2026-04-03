@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Newsletter Launch — Short Circuit</title>
+  <meta name="description" content="How I built and launched a weekly AI newsletter from scratch — content strategy, email HTML, and platform setup, all with Claude.">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    /* ============================================
+       PROJECT DETAIL PAGE — STYLES
+    ============================================ */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.88em;
+      font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+      transition: color var(--transition-fast);
+    }
+    .back-link:hover { color: var(--electric-blue); }
+    .back-link .arrow { transition: transform var(--transition-fast); }
+    .back-link:hover .arrow { transform: translateX(-4px); }
+
+    .project-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    .project-meta .meta-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.72em;
+      font-weight: 500;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--circuit-green);
+    }
+
+    .project-meta .meta-tag .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--circuit-green);
+    }
+
+    .project-meta .status-badge {
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 0.7em;
+      font-weight: 600;
+      font-family: var(--font-mono);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      background: rgba(0, 230, 118, 0.12);
+      border: 1px solid rgba(0, 230, 118, 0.3);
+      color: var(--circuit-green);
+    }
+
+    .page-header h1 { margin-bottom: 16px; }
+
+    .project-intro {
+      font-size: 1.1em;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      max-width: 720px;
+    }
+
+    .project-section {
+      padding: 60px 24px;
+      position: relative;
+    }
+
+    .project-section + .project-section {
+      border-top: 1px solid var(--card-border);
+    }
+
+    .project-section-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .project-section .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.8em;
+      font-weight: 500;
+      color: var(--electric-blue);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .project-section h2 {
+      font-family: var(--font-heading);
+      font-size: 1.6em;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 20px;
+      line-height: 1.25;
+    }
+
+    .project-section p {
+      color: var(--text-secondary);
+      font-size: 1em;
+      line-height: 1.8;
+      max-width: 720px;
+      margin-bottom: 16px;
+    }
+
+    .project-section p:last-child { margin-bottom: 0; }
+
+    .project-section p strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .build-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-top: 8px;
+    }
+
+    .build-column h3 {
+      font-family: var(--font-heading);
+      font-size: 1.1em;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--text-primary);
+    }
+
+    .build-column p { max-width: 100%; }
+
+    .tools-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .tool-tag {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      color: var(--text-secondary);
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 0.85em;
+      font-weight: 500;
+      font-family: var(--font-mono);
+      transition: border-color var(--transition-fast);
+    }
+
+    .tool-tag:hover { border-color: var(--card-hover-border); }
+
+    .tool-tag.primary {
+      border-color: var(--electric-blue-border);
+      color: var(--electric-blue);
+      background: var(--electric-blue-glow);
+    }
+
+    .learned-block {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 32px;
+      max-width: 720px;
+    }
+
+    .learned-block .quote-mark {
+      font-family: var(--font-heading);
+      font-size: 3em;
+      line-height: 1;
+      color: var(--electric-blue);
+      opacity: 0.3;
+      margin-bottom: -8px;
+    }
+
+    .learned-block .quote-text {
+      font-size: 1.05em;
+      color: var(--text-primary);
+      line-height: 1.8;
+      font-style: italic;
+    }
+
+    .learned-block .quote-attribution {
+      margin-top: 16px;
+      font-family: var(--font-mono);
+      font-size: 0.78em;
+      color: var(--mid-gray);
+    }
+
+    .review-container {
+      display: grid;
+      grid-template-columns: 400px 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .review-radar {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 24px;
+    }
+
+    .review-radar .radar-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .review-radar .complexity-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .review-radar .complexity-label {
+      font-family: var(--font-mono);
+      font-size: 0.75em;
+      color: var(--mid-gray);
+    }
+
+    .review-radar .complexity-bar { display: flex; gap: 4px; }
+
+    .review-radar .complexity-segment {
+      width: 20px;
+      height: 6px;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .review-radar .complexity-segment.active {
+      background: linear-gradient(90deg, var(--electric-blue), #00b4d8);
+    }
+
+    .review-radar .avg-score {
+      font-family: var(--font-mono);
+      font-size: 0.85em;
+      color: var(--mid-gray);
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    .review-radar .avg-score span {
+      color: var(--electric-blue);
+      font-weight: 700;
+      font-size: 1.2em;
+    }
+
+    .review-content h3 {
+      font-family: var(--font-heading);
+      font-size: 1.1em;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: var(--text-primary);
+    }
+
+    .review-scores {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .review-score-row { display: flex; align-items: center; gap: 12px; }
+
+    .review-score-row .score-label {
+      font-size: 0.82em;
+      color: var(--text-secondary);
+      width: 140px;
+      flex-shrink: 0;
+    }
+
+    .review-score-row .score-bar-track {
+      flex: 1;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .review-score-row .score-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--electric-blue), #00b4d8);
+      border-radius: 3px;
+    }
+
+    .review-score-row .score-value {
+      font-family: var(--font-mono);
+      font-size: 0.88em;
+      font-weight: 600;
+      color: var(--electric-blue);
+      width: 24px;
+      text-align: right;
+    }
+
+    .review-commentary {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 24px;
+    }
+
+    .review-commentary .shorty-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .review-commentary .shorty-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .review-commentary .shorty-name {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 0.95em;
+    }
+
+    .review-commentary .shorty-role {
+      font-family: var(--font-mono);
+      font-size: 0.7em;
+      color: var(--mid-gray);
+    }
+
+    .review-commentary p {
+      color: var(--text-secondary);
+      font-size: 0.9em;
+      line-height: 1.7;
+      margin-bottom: 12px;
+    }
+
+    .review-commentary p:last-child { margin-bottom: 0; }
+
+    .next-project {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 28px 32px;
+      max-width: 720px;
+      transition: border-color var(--transition-smooth);
+    }
+
+    .next-project:hover { border-color: var(--card-hover-border); }
+
+    .next-project .next-label {
+      font-family: var(--font-mono);
+      font-size: 0.72em;
+      color: var(--mid-gray);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .next-project .next-title {
+      font-family: var(--font-heading);
+      font-size: 1.15em;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .next-project .next-arrow {
+      font-size: 1.5em;
+      color: var(--electric-blue);
+      transition: transform var(--transition-fast);
+    }
+
+    .next-project:hover .next-arrow { transform: translateX(6px); }
+
+    @media (max-width: 900px) {
+      .build-grid { grid-template-columns: 1fr; gap: 24px; }
+      .review-container { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .project-meta { gap: 10px; }
+    }
+  </style>
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg">
+</head>
+<body>
+
+  <!-- ========== NAVIGATION ========== -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="../index.html" class="nav-logo">Short <span class="zap">&#9889;</span> Circuit</a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../projects.html" class="active">Projects</a></li>
+        <li><a href="../newsletter.html">Newsletter</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../newsletter.html" class="nav-cta">Subscribe</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ========== PAGE HEADER ========== -->
+  <header class="page-header">
+    <div class="page-header-inner">
+      <a href="../projects.html" class="back-link"><span class="arrow">&#8592;</span> All Projects</a>
+      <div class="project-meta">
+        <span class="meta-tag"><span class="dot"></span> Content &amp; Email</span>
+        <span class="status-badge">&#9889; Live</span>
+      </div>
+      <h1>Newsletter Launch</h1>
+      <p class="project-intro">Built and launched a weekly AI newsletter from scratch — content strategy, email-compatible HTML template, platform setup, and subscriber pipeline. All with Claude.</p>
+    </div>
+  </header>
+
+  <!-- ========== THE CHALLENGE ========== -->
+  <section class="project-section reveal">
+    <div class="project-section-inner">
+      <div class="section-label">The Challenge</div>
+      <h2>I wanted something to learn about AI — and a reason to keep going</h2>
+      <p>The newsletter started as a learning exercise. I was exploring what AI could actually do, and I needed a structured reason to keep showing up and building. A weekly newsletter felt like the right forcing function — it would require researching AI news, writing original content, and shipping something on a real schedule.</p>
+      <p>The problem: I'd never built an email newsletter. Not the content strategy, not the HTML template, not the platform integration. <strong>Email HTML turned out to be a completely different beast from web HTML</strong> — table-based layouts, inline styles, Outlook conditionals. I didn't know any of that going in.</p>
+    </div>
+  </section>
+
+  <!-- ========== THE BUILD ========== -->
+  <section class="project-section reveal">
+    <div class="project-section-inner">
+      <div class="section-label">The Build</div>
+      <h2>Content strategy meets email engineering</h2>
+      <div class="build-grid">
+        <div class="build-column">
+          <h3>Content &amp; Editorial</h3>
+          <p>Developed a recurring newsletter structure: a featured article with an original take on AI trends, a "Quick Volts" section with curated AI and robotics news (each starting with a number, each designed to elicit a reaction), and a hands-on learning exercise. Every section has a defined quality bar and editorial voice — conversational, opinionated, and written as "Richie" not "Rich."</p>
+        </div>
+        <div class="build-column">
+          <h3>Template &amp; Platform</h3>
+          <p>Built a custom email-compatible HTML template from scratch using table-based layouts and inline CSS — the only way to guarantee consistent rendering across Gmail, Outlook, and Apple Mail. Set up Buttondown as the newsletter platform, integrated the subscriber pipeline with the website, and established an API-based workflow for uploading and managing issues programmatically.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== TOOLS & SKILLS ========== -->
+  <section class="project-section reveal">
+    <div class="project-section-inner">
+      <div class="section-label">Tools &amp; Skills</div>
+      <h2>What I used</h2>
+      <div class="tools-grid">
+        <span class="tool-tag primary">Claude</span>
+        <span class="tool-tag">Email HTML</span>
+        <span class="tool-tag">Content Strategy</span>
+        <span class="tool-tag">Buttondown API</span>
+        <span class="tool-tag">Inline CSS</span>
+        <span class="tool-tag">Table-Based Layouts</span>
+        <span class="tool-tag">Base64 Image Encoding</span>
+        <span class="tool-tag">Editorial Writing</span>
+        <span class="tool-tag">Prompt Engineering</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== WHAT I LEARNED ========== -->
+  <section class="project-section reveal">
+    <div class="project-section-inner">
+      <div class="section-label">What I Learned</div>
+      <h2>The takeaway</h2>
+      <div class="learned-block">
+        <div class="quote-mark">"</div>
+        <p class="quote-text">Email HTML is a completely different beast from web HTML. AI helped me navigate the quirks — table-based layouts, inline styles, Outlook conditionals — but the editorial voice had to be mine. The biggest lesson wasn't technical. It was learning that AI can help you build the infrastructure, but the personality and the perspective are what make people actually read it.</p>
+        <div class="quote-attribution">— Richie, after sending Issue 1</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== SHORTY'S REVIEW ========== -->
+  <section class="project-section reveal">
+    <div class="project-section-inner">
+      <div class="section-label">&#9889; Shorty's Review</div>
+      <h2>AI collaboration assessment</h2>
+      <div class="review-container">
+        <div class="review-radar">
+          <div class="radar-header">
+            <div class="complexity-row">
+              <span class="complexity-label">Complexity</span>
+              <div class="complexity-bar">
+                <div class="complexity-segment active"></div>
+                <div class="complexity-segment active"></div>
+                <div class="complexity-segment active"></div>
+                <div class="complexity-segment"></div>
+                <div class="complexity-segment"></div>
+              </div>
+              <span class="complexity-label">3/5</span>
+            </div>
+          </div>
+          <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg" style="max-width: 400px; width: 100%;">
+  <!-- Grid -->
+    <polygon points="200.0,172.0 226.6,191.3 216.5,222.7 183.5,222.7 173.4,191.3" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1" />
+    <polygon points="200.0,144.0 253.3,182.7 232.9,245.3 167.1,245.3 146.7,182.7" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1" />
+    <polygon points="200.0,116.0 279.9,174.0 249.4,268.0 150.6,268.0 120.1,174.0" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1" />
+    <polygon points="200.0,88.0 306.5,165.4 265.8,290.6 134.2,290.6 93.5,165.4" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1" />
+    <polygon points="200.0,60.0 333.1,156.7 282.3,313.3 117.7,313.3 66.9,156.7" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1" />
+  <!-- Axes -->
+    <line x1="200" y1="200" x2="200.0" y2="60.0" stroke="rgba(255,255,255,0.06)" stroke-width="1" />
+    <line x1="200" y1="200" x2="333.1" y2="156.7" stroke="rgba(255,255,255,0.06)" stroke-width="1" />
+    <line x1="200" y1="200" x2="282.3" y2="313.3" stroke="rgba(255,255,255,0.06)" stroke-width="1" />
+    <line x1="200" y1="200" x2="117.7" y2="313.3" stroke="rgba(255,255,255,0.06)" stroke-width="1" />
+    <line x1="200" y1="200" x2="66.9" y2="156.7" stroke="rgba(255,255,255,0.06)" stroke-width="1" />
+  <!-- Score area -->
+    <polygon points="200.0,88.0 293.2,169.7 249.4,268.0 150.6,268.0 106.8,169.7" fill="rgba(0, 166, 251, 0.12)" stroke="var(--electric-blue)" stroke-width="2.5" />
+  <!-- Score dots -->
+    <circle cx="200.0" cy="88.0" r="5" fill="var(--electric-blue)" stroke="var(--deep-navy)" stroke-width="2" />
+    <circle cx="293.2" cy="169.7" r="5" fill="var(--electric-blue)" stroke="var(--deep-navy)" stroke-width="2" />
+    <circle cx="249.4" cy="268.0" r="5" fill="var(--electric-blue)" stroke="var(--deep-navy)" stroke-width="2" />
+    <circle cx="150.6" cy="268.0" r="5" fill="var(--electric-blue)" stroke="var(--deep-navy)" stroke-width="2" />
+    <circle cx="106.8" cy="169.7" r="5" fill="var(--electric-blue)" stroke="var(--deep-navy)" stroke-width="2" />
+  <!-- Labels -->
+    <text x="200.0" y="32.0" text-anchor="middle" fill="var(--text-secondary)" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="500">
+      <tspan x="200.0" dy="-0.4em">Clarity of</tspan>
+      <tspan x="200.0" dy="1.2em">Intent</tspan>
+    </text>
+    <text x="200.0" y="74.0" dy="0.35em" text-anchor="middle" fill="var(--electric-blue)" font-family="'Inter', sans-serif" font-size="13" font-weight="700">8</text>
+    <text x="359.8" y="148.1" text-anchor="start" fill="var(--text-secondary)" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="500">
+      <tspan x="359.8" dy="-0.4em">Context</tspan>
+      <tspan x="359.8" dy="1.2em">Loading</tspan>
+    </text>
+    <text x="306.5" y="165.4" dy="0.35em" text-anchor="middle" fill="var(--electric-blue)" font-family="'Inter', sans-serif" font-size="13" font-weight="700">7</text>
+    <text x="298.7" y="335.9" text-anchor="start" fill="var(--text-secondary)" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="500">
+      <tspan x="298.7" dy="-0.4em">Feedback</tspan>
+      <tspan x="298.7" dy="1.2em">Precision</tspan>
+    </text>
+    <text x="257.6" y="279.3" dy="0.35em" text-anchor="middle" fill="var(--electric-blue)" font-family="'Inter', sans-serif" font-size="13" font-weight="700">9</text>
+    <text x="101.3" y="335.9" text-anchor="end" fill="var(--text-secondary)" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="500">
+      <tspan x="101.3" dy="-0.4em">Scope</tspan>
+      <tspan x="101.3" dy="1.2em">Discipline</tspan>
+    </text>
+    <text x="142.4" y="279.3" dy="0.35em" text-anchor="middle" fill="var(--electric-blue)" font-family="'Inter', sans-serif" font-size="13" font-weight="700">7</text>
+    <text x="40.2" y="148.1" text-anchor="end" fill="var(--text-secondary)" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="500">
+      <tspan x="40.2" dy="-0.4em">Iteration</tspan>
+      <tspan x="40.2" dy="1.2em">Instinct</tspan>
+    </text>
+    <text x="93.5" y="165.4" dy="0.35em" text-anchor="middle" fill="var(--electric-blue)" font-family="'Inter', sans-serif" font-size="13" font-weight="700">7</text>
+</svg>
+          <div class="avg-score">Average: <span>7.6</span>/10</div>
+        </div>
+
+        <div>
+          <div class="review-scores">
+            <div class="review-score-row">
+              <div class="score-label">Clarity of Intent</div>
+              <div class="score-bar-track"><div class="score-bar-fill" style="width: 80%"></div></div>
+              <div class="score-value">8</div>
+            </div>
+            <div class="review-score-row">
+              <div class="score-label">Context Loading</div>
+              <div class="score-bar-track"><div class="score-bar-fill" style="width: 70%"></div></div>
+              <div class="score-value">7</div>
+            </div>
+            <div class="review-score-row">
+              <div class="score-label">Feedback Precision</div>
+              <div class="score-bar-track"><div class="score-bar-fill" style="width: 90%"></div></div>
+              <div class="score-value">9</div>
+            </div>
+            <div class="review-score-row">
+              <div class="score-label">Scope Discipline</div>
+              <div class="score-bar-track"><div class="score-bar-fill" style="width: 70%"></div></div>
+              <div class="score-value">7</div>
+            </div>
+            <div class="review-score-row">
+              <div class="score-label">Iteration Instinct</div>
+              <div class="score-bar-track"><div class="score-bar-fill" style="width: 70%"></div></div>
+              <div class="score-value">7</div>
+            </div>
+          </div>
+
+          <div class="review-commentary">
+            <div class="shorty-header">
+              <img src="../assets/shorty-badge.png" alt="Shorty" class="shorty-avatar">
+              <div>
+                <div class="shorty-name">Shorty</div>
+                <div class="shorty-role">AI Collaboration Reviewer</div>
+              </div>
+            </div>
+            <p>Richie's editorial instincts are his strongest asset on this project. The Quick Volts quality bar — "each starts with one number, is relevant to the audience, and elicits a wow" — was near-masterclass feedback precision. That single sentence became the standard for every section.</p>
+            <p>Where it got tricky: <strong>email HTML is a completely different animal from web HTML</strong>, and that didn't surface until we were already building the template. One sentence in the brief about technical constraints would've saved a full rework cycle. The editorial voice was always right — the infrastructure planning needs to catch up.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== NEXT PROJECT ========== -->
+  <section class="project-section">
+    <div class="project-section-inner">
+      <a href="image-generation.html" class="next-project">
+        <div>
+          <div class="next-label">Next Project</div>
+          <div class="next-title">Image &amp; Logo Generation &#8594;</div>
+        </div>
+        <span class="next-arrow">&#8594;</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-logo">Short <span class="zap">&#9889;</span> Circuit</span>
+      <ul class="footer-links">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../projects.html">Projects</a></li>
+        <li><a href="../newsletter.html">Newsletter</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="https://tiktok.com/@shortcircuitproject" target="_blank" rel="noopener">TikTok</a></li>
+        <li><a href="https://linkedin.com/in/richbarden" target="_blank" rel="noopener">LinkedIn</a></li>
+      </ul>
+      <span class="footer-copy">&copy; 2026 Short Circuit Project</span>
+    </div>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
