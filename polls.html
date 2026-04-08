@@ -380,38 +380,70 @@
     // ============================================
     // POLLS DATA
     // ============================================
+    // === ROTATION BANK (inactive — swap back in per rotation schedule) ===
+    // {
+    //   id: 'build-next-v1',
+    //   question: 'What should I build next?',
+    //   options: [
+    //     { key: 'automate-newsletter', label: 'Automate the newsletter' },
+    //     { key: 'interactive-site', label: 'Add interactive features to the site' },
+    //     { key: 'develop-product', label: 'Develop a product' },
+    //     { key: 'make-merch', label: 'Make merch (Shorty stickers, shirts, hats)' },
+    //     { key: 'shorty-chatbot', label: 'Build a Shorty chatbot for the site' }
+    //   ]
+    // },
+    // {
+    //   id: 'ai-model-v1',
+    //   question: "What's your go-to AI model?",
+    //   options: [
+    //     { key: 'chatgpt', label: 'ChatGPT' },
+    //     { key: 'claude', label: 'Claude' },
+    //     { key: 'gemini', label: 'Gemini' },
+    //     { key: 'copilot', label: 'Copilot' },
+    //     { key: 'none', label: "I don't use AI yet" }
+    //   ]
+    // },
+    // {
+    //   id: 'how-found-v1',
+    //   question: "How'd you find Short Circuit?",
+    //   options: [
+    //     { key: 'linkedin', label: 'LinkedIn' },
+    //     { key: 'tiktok', label: 'TikTok' },
+    //     { key: 'newsletter', label: 'Someone forwarded the newsletter' },
+    //     { key: 'word-of-mouth', label: 'Word of mouth' },
+    //     { key: 'lost', label: 'Lost on the internet' }
+    //   ]
+    // },
+
     const POLLS = [
       {
-        id: 'build-next-v1',
-        question: 'What should I build next?',
+        id: 'ai-at-work-honesty-v1',
+        question: "Be honest — do you tell people at work you use AI?",
         options: [
-          { key: 'automate-newsletter', label: 'Automate the newsletter' },
-          { key: 'interactive-site', label: 'Add interactive features to the site' },
-          { key: 'develop-product', label: 'Develop a product' },
-          { key: 'make-merch', label: 'Make merch (Shorty stickers, shirts, hats)' },
-          { key: 'shorty-chatbot', label: 'Build a Shorty chatbot for the site' }
+          { key: 'yes-openly', label: 'Yes, openly' },
+          { key: 'only-trusted', label: 'Only people I trust' },
+          { key: 'secret-weapon', label: "No, it's my secret weapon" },
+          { key: 'nobody-asked', label: "I would, but nobody's asked" }
         ]
       },
       {
-        id: 'ai-model-v1',
-        question: "What's your go-to AI model?",
+        id: 'ai-barrier-v1',
+        question: "What's holding you back from using AI at work?",
         options: [
-          { key: 'chatgpt', label: 'ChatGPT' },
-          { key: 'claude', label: 'Claude' },
-          { key: 'gemini', label: 'Gemini' },
-          { key: 'copilot', label: 'Copilot' },
-          { key: 'none', label: "I don't use AI yet" }
+          { key: 'dont-know-start', label: "I don't know where to start" },
+          { key: 'company-wont-allow', label: "My company doesn't allow it (or hasn't said I can)" },
+          { key: 'results-not-great', label: "I've tried it but the results weren't great" },
+          { key: 'already-using', label: "Nothing — I'm already using it daily" }
         ]
       },
       {
-        id: 'how-found-v1',
-        question: "How'd you find Short Circuit?",
+        id: 'ai-usage-v1',
+        question: "How are you actually using AI right now?",
         options: [
-          { key: 'linkedin', label: 'LinkedIn' },
-          { key: 'tiktok', label: 'TikTok' },
-          { key: 'newsletter', label: 'Someone forwarded the newsletter' },
-          { key: 'word-of-mouth', label: 'Word of mouth' },
-          { key: 'lost', label: 'Lost on the internet' }
+          { key: 'writing-editing', label: 'Writing and editing (emails, docs, reports)' },
+          { key: 'research-brainstorm', label: 'Research and brainstorming' },
+          { key: 'data-analysis', label: 'Data analysis and spreadsheets' },
+          { key: 'building-things', label: 'Building things (code, automations, tools)' }
         ]
       }
     ];
