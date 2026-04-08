@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Polls — Short Circuit</title>
+  <meta name="description" content="Vote on what Short Circuit builds next, share your AI habits, and see what the community thinks.">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* ============================================
+       POLLS PAGE — SPECIFIC STYLES
+    ============================================ */
+
+    .polls-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    /* Poll card */
+    .poll-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 36px 32px;
+      transition: border-color var(--transition-smooth);
+    }
+
+    .poll-card:hover {
+      border-color: var(--card-hover-border);
+    }
+
+    .poll-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .poll-number {
+      font-family: var(--font-mono);
+      font-size: 0.72em;
+      color: var(--electric-blue);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    .poll-status {
+      font-family: var(--font-mono);
+      font-size: 0.7em;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .poll-status.active {
+      background: rgba(0, 230, 118, 0.12);
+      color: var(--circuit-green);
+    }
+
+    .poll-status.voted {
+      background: var(--electric-blue-glow);
+      color: var(--electric-blue);
+    }
+
+    .poll-question {
+      font-family: var(--font-heading);
+      font-size: 1.4em;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 24px;
+      line-height: 1.3;
+    }
+
+    /* Voting options */
+    .poll-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .poll-option {
+      position: relative;
+      cursor: pointer;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      transition: border-color var(--transition-fast), background var(--transition-fast);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .poll-option:hover {
+      border-color: var(--electric-blue-border);
+      background: rgba(0, 166, 251, 0.04);
+    }
+
+    .poll-option.selected {
+      border-color: var(--electric-blue);
+      background: var(--electric-blue-glow);
+    }
+
+    .poll-option input[type="radio"] {
+      display: none;
+    }
+
+    .poll-radio {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--mid-gray);
+      flex-shrink: 0;
+      transition: border-color var(--transition-fast), background var(--transition-fast);
+      position: relative;
+    }
+
+    .poll-option.selected .poll-radio {
+      border-color: var(--electric-blue);
+      background: var(--electric-blue);
+    }
+
+    .poll-option.selected .poll-radio::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #fff;
+    }
+
+    .poll-option-text {
+      font-size: 0.95em;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    /* Vote button */
+    .poll-vote-btn {
+      margin-top: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--electric-blue);
+      color: #fff;
+      padding: 12px 28px;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 0.9em;
+      border: none;
+      cursor: pointer;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), opacity var(--transition-fast);
+      font-family: var(--font-body);
+    }
+
+    .poll-vote-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 166, 251, 0.3);
+    }
+
+    .poll-vote-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Results view */
+    .poll-results {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .result-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .result-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .result-text {
+      font-size: 0.9em;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .result-text.user-voted {
+      color: var(--electric-blue);
+    }
+
+    .result-pct {
+      font-family: var(--font-mono);
+      font-size: 0.8em;
+      color: var(--text-secondary);
+      font-weight: 600;
+    }
+
+    .result-bar-track {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .result-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      background: var(--electric-blue);
+      transition: width 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      width: 0;
+    }
+
+    .result-bar-fill.user-voted {
+      background: linear-gradient(90deg, var(--electric-blue), var(--circuit-green));
+    }
+
+    .poll-total {
+      margin-top: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.75em;
+      color: var(--mid-gray);
+    }
+
+    /* Suggestion box */
+    .suggest-section {
+      border-top: 1px solid var(--card-border);
+    }
+
+    .suggest-card {
+      background: linear-gradient(135deg, var(--deep-navy-light), var(--deep-navy));
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      padding: 40px 36px;
+      text-align: center;
+    }
+
+    .suggest-card h3 {
+      font-family: var(--font-heading);
+      font-size: 1.4em;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .suggest-card p {
+      color: var(--text-secondary);
+      font-size: 0.95em;
+      margin-bottom: 20px;
+    }
+
+    .suggest-card a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Animation for results appearing */
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .poll-results .result-row {
+      animation: fadeSlideIn 0.4s ease forwards;
+      opacity: 0;
+    }
+
+    .poll-results .result-row:nth-child(1) { animation-delay: 0.05s; }
+    .poll-results .result-row:nth-child(2) { animation-delay: 0.1s; }
+    .poll-results .result-row:nth-child(3) { animation-delay: 0.15s; }
+    .poll-results .result-row:nth-child(4) { animation-delay: 0.2s; }
+    .poll-results .result-row:nth-child(5) { animation-delay: 0.25s; }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .poll-card { padding: 24px 20px; }
+      .poll-question { font-size: 1.2em; }
+      .suggest-card { padding: 28px 20px; }
+    }
+  </style>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body>
+
+  <!-- ========== NAVIGATION ========== -->
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Short <span class="zap">&#9889;</span> Circuit</a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="polls.html" class="active">Polls</a></li>
+        <li><a href="newsletter.html">Newsletter</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="newsletter.html" class="nav-cta">Subscribe</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ========== PAGE HEADER ========== -->
+  <header class="page-header">
+    <div class="page-header-inner">
+      <div class="section-label">Community</div>
+      <h1>Polls</h1>
+      <p class="page-description">Help steer this project. Vote, see what everyone else thinks, and maybe find out you're not the only one who talks to their AI like a coworker.</p>
+    </div>
+  </header>
+
+  <!-- ========== POLLS ========== -->
+  <section class="section" style="border-top: 1px solid var(--card-border);">
+    <div class="section-inner">
+      <div class="polls-grid" id="pollsContainer">
+        <!-- Polls are rendered by JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== SUGGEST A POLL ========== -->
+  <section class="section suggest-section">
+    <div class="section-inner">
+      <div class="suggest-card reveal">
+        <h3>Got a question for the community?</h3>
+        <p>If you have a poll idea or something you'd love to ask this audience, send it over.</p>
+        <a href="mailto:shorty@shortcircuitproject.com?subject=Poll%20Idea" class="btn-primary">Suggest a poll &#8594;</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <span class="footer-logo">Short <span class="zap">&#9889;</span> Circuit</span>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="polls.html">Polls</a></li>
+        <li><a href="newsletter.html">Newsletter</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+      <span class="footer-copy">&copy; 2026 Short Circuit Project</span>
+    </div>
+  </footer>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+    import { getDatabase, ref, get, runTransaction } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-database.js";
+
+    // ============================================
+    // FIREBASE CONFIG
+    // ============================================
+    const firebaseConfig = {
+      apiKey: "AIzaSyANtt8Ap9oqYVWw3n-7I5f9vwDR-oiDoUs",
+      authDomain: "short-circuit-polls.firebaseapp.com",
+      databaseURL: "https://short-circuit-polls-default-rtdb.firebaseio.com",
+      projectId: "short-circuit-polls",
+      storageBucket: "short-circuit-polls.firebasestorage.app",
+      messagingSenderId: "437481872856",
+      appId: "1:437481872856:web:3c129eefdc6a8ec26ce6ad",
+      measurementId: "G-ES401XT0QQ"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // ============================================
+    // POLLS DATA
+    // ============================================
+    const POLLS = [
+      {
+        id: 'build-next-v1',
+        question: 'What should I build next?',
+        options: [
+          { key: 'automate-newsletter', label: 'Automate the newsletter' },
+          { key: 'interactive-site', label: 'Add interactive features to the site' },
+          { key: 'develop-product', label: 'Develop a product' },
+          { key: 'make-merch', label: 'Make merch (Shorty stickers, shirts, hats)' },
+          { key: 'shorty-chatbot', label: 'Build a Shorty chatbot for the site' }
+        ]
+      },
+      {
+        id: 'ai-model-v1',
+        question: "What's your go-to AI model?",
+        options: [
+          { key: 'chatgpt', label: 'ChatGPT' },
+          { key: 'claude', label: 'Claude' },
+          { key: 'gemini', label: 'Gemini' },
+          { key: 'copilot', label: 'Copilot' },
+          { key: 'none', label: "I don't use AI yet" }
+        ]
+      },
+      {
+        id: 'how-found-v1',
+        question: "How'd you find Short Circuit?",
+        options: [
+          { key: 'linkedin', label: 'LinkedIn' },
+          { key: 'tiktok', label: 'TikTok' },
+          { key: 'newsletter', label: 'Someone forwarded the newsletter' },
+          { key: 'word-of-mouth', label: 'Word of mouth' },
+          { key: 'lost', label: 'Lost on the internet' }
+        ]
+      }
+    ];
+
+    // In-memory cache of vote counts (loaded from Firebase)
+    const votesCache = {};
+
+    // ============================================
+    // FIREBASE VOTE STORAGE
+    // ============================================
+
+    async function loadVotes(pollId) {
+      if (votesCache[pollId]) return votesCache[pollId];
+      try {
+        const snapshot = await get(ref(db, 'polls/' + pollId));
+        if (snapshot.exists()) {
+          votesCache[pollId] = snapshot.val();
+          return votesCache[pollId];
+        }
+      } catch (e) {
+        console.warn('Firebase read failed, using empty counts:', e);
+      }
+      // Return zeroes if poll doesn't exist in DB yet
+      const poll = POLLS.find(p => p.id === pollId);
+      const empty = {};
+      poll.options.forEach(o => empty[o.key] = 0);
+      return empty;
+    }
+
+    async function saveVote(pollId, optionKey) {
+      // Atomic increment using Firebase transaction
+      const optionRef = ref(db, 'polls/' + pollId + '/' + optionKey);
+      try {
+        await runTransaction(optionRef, (current) => {
+          return (current || 0) + 1;
+        });
+      } catch (e) {
+        console.error('Firebase write failed:', e);
+      }
+      // Mark as voted locally
+      localStorage.setItem('sc_voted_' + pollId, optionKey);
+      // Invalidate cache so next render fetches fresh data
+      delete votesCache[pollId];
+    }
+
+    function getUserVote(pollId) {
+      return localStorage.getItem('sc_voted_' + pollId);
+    }
+
+    // ============================================
+    // RENDER
+    // ============================================
+
+    async function renderPolls() {
+      const container = document.getElementById('pollsContainer');
+      container.innerHTML = '';
+
+      for (let index = 0; index < POLLS.length; index++) {
+        const poll = POLLS[index];
+        const userVote = getUserVote(poll.id);
+        const card = document.createElement('div');
+        card.className = 'poll-card reveal';
+        if (index > 0) card.classList.add('reveal-delay-' + Math.min(index, 4));
+
+        if (userVote) {
+          const votes = await loadVotes(poll.id);
+          card.innerHTML = buildResultsView(poll, userVote, votes, index);
+        } else {
+          card.innerHTML = buildVotingView(poll, index);
+        }
+
+        container.appendChild(card);
+      }
+
+      // Trigger reveal animations
+      requestAnimationFrame(() => {
+        document.querySelectorAll('.poll-card.reveal').forEach(el => el.classList.add('visible'));
+      });
+
+      // Animate result bars
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          document.querySelectorAll('.result-bar-fill[data-width]').forEach(bar => {
+            bar.style.width = bar.dataset.width + '%';
+          });
+        }, 100);
+      });
+    }
+
+    function buildVotingView(poll, index) {
+      const optionsHtml = poll.options.map(opt => `
+        <label class="poll-option" data-key="${opt.key}">
+          <input type="radio" name="poll-${poll.id}" value="${opt.key}">
+          <span class="poll-radio"></span>
+          <span class="poll-option-text">${opt.label}</span>
+        </label>
+      `).join('');
+
+      return `
+        <div class="poll-header">
+          <span class="poll-number">Poll ${index + 1}</span>
+          <span class="poll-status active">Active</span>
+        </div>
+        <h3 class="poll-question">${poll.question}</h3>
+        <div class="poll-options" data-poll-id="${poll.id}">
+          ${optionsHtml}
+        </div>
+        <button class="poll-vote-btn" data-poll-id="${poll.id}" disabled>Vote</button>
+      `;
+    }
+
+    function buildResultsView(poll, userVote, votes, index) {
+      const total = Object.values(votes).reduce((a, b) => a + b, 0);
+
+      const resultsHtml = poll.options.map(opt => {
+        const count = votes[opt.key] || 0;
+        const pct = total > 0 ? Math.round((count / total) * 100) : 0;
+        const isUserVote = opt.key === userVote;
+
+        return `
+          <div class="result-row">
+            <div class="result-label">
+              <span class="result-text ${isUserVote ? 'user-voted' : ''}">${opt.label}${isUserVote ? ' &#10003;' : ''}</span>
+              <span class="result-pct">${pct}%</span>
+            </div>
+            <div class="result-bar-track">
+              <div class="result-bar-fill ${isUserVote ? 'user-voted' : ''}" data-width="${pct}"></div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      return `
+        <div class="poll-header">
+          <span class="poll-number">Poll ${index + 1}</span>
+          <span class="poll-status voted">Voted</span>
+        </div>
+        <h3 class="poll-question">${poll.question}</h3>
+        <div class="poll-results">
+          ${resultsHtml}
+        </div>
+        <div class="poll-total">${total.toLocaleString()} vote${total !== 1 ? 's' : ''}</div>
+      `;
+    }
+
+    // ============================================
+    // EVENT HANDLERS
+    // ============================================
+
+    document.addEventListener('click', async (e) => {
+      // Handle option selection
+      const option = e.target.closest('.poll-option');
+      if (option) {
+        const container = option.closest('.poll-options');
+        container.querySelectorAll('.poll-option').forEach(o => o.classList.remove('selected'));
+        option.classList.add('selected');
+        option.querySelector('input').checked = true;
+
+        const pollId = container.dataset.pollId;
+        const btn = document.querySelector(`.poll-vote-btn[data-poll-id="${pollId}"]`);
+        if (btn) btn.disabled = false;
+      }
+
+      // Handle vote button
+      const voteBtn = e.target.closest('.poll-vote-btn');
+      if (voteBtn && !voteBtn.disabled) {
+        const pollId = voteBtn.dataset.pollId;
+        const selected = document.querySelector(`.poll-options[data-poll-id="${pollId}"] .poll-option.selected input`);
+        if (selected) {
+          voteBtn.disabled = true;
+          voteBtn.textContent = 'Saving...';
+          await saveVote(pollId, selected.value);
+          await renderPolls();
+        }
+      }
+    });
+
+    // ============================================
+    // INIT
+    // ============================================
+
+    renderPolls();
+
+    // Nav scroll effect
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 40));
+
+    // Mobile menu
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal:not(.poll-card)');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
