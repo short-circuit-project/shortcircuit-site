@@ -3,47 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The SMB AI Cliff — Richie Barden | For BRG</title>
-  <meta name="description" content="A short thesis on why the next five years of SMB leadership transition will be won or lost on AI adoption — plus a research survey to pressure-test it.">
+  <title>A Memo for BRG — Richie Barden</title>
+  <meta name="description" content="Five reads on the mid-market AI opportunity, and the bet I'm making about BRG's AI & Decision Intelligence practice.">
   <meta name="robots" content="noindex, nofollow">
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <style>
     /* ============================================
-       BRG THESIS PAGE — SPECIFIC STYLES
+       BRG MEMO PAGE — SPECIFIC STYLES
     ============================================ */
 
     /* ---------- Hero ---------- */
-    .thesis-hero {
-      padding: 140px 24px 70px;
+    .memo-hero {
+      padding: 140px 24px 60px;
       position: relative;
       overflow: hidden;
     }
-    .thesis-hero::before {
+    .memo-hero::before {
       content: '';
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(circle at 15% 40%, rgba(0, 166, 251, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 15% 40%, rgba(0, 166, 251, 0.07) 0%, transparent 50%),
         radial-gradient(circle at 85% 60%, rgba(0, 230, 118, 0.04) 0%, transparent 45%);
       pointer-events: none;
     }
-    .thesis-hero::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image: radial-gradient(rgba(0, 166, 251, 0.05) 1px, transparent 1px);
-      background-size: 40px 40px;
-      pointer-events: none;
-      opacity: 0.5;
-    }
-    .thesis-hero-inner {
-      max-width: 820px;
+    .memo-hero-inner {
+      max-width: 760px;
       margin: 0 auto;
       position: relative;
       z-index: 1;
     }
-    .thesis-badge {
+    .memo-badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -52,13 +43,13 @@
       color: var(--electric-blue);
       padding: 6px 16px;
       border-radius: 20px;
-      font-size: 0.8em;
+      font-size: 0.78em;
       font-weight: 600;
       font-family: var(--font-mono);
       margin-bottom: 28px;
       letter-spacing: 0.5px;
     }
-    .thesis-badge .pulse {
+    .memo-badge .pulse {
       width: 8px;
       height: 8px;
       background: var(--circuit-green);
@@ -69,64 +60,72 @@
       0%, 100% { opacity: 1; transform: scale(1); }
       50% { opacity: 0.5; transform: scale(0.8); }
     }
-    .thesis-hero h1 {
+    .memo-hero h1 {
       font-family: var(--font-heading);
-      font-size: clamp(2.2em, 4.5vw, 3.2em);
+      font-size: clamp(2em, 4vw, 2.8em);
       font-weight: 700;
-      line-height: 1.1;
-      letter-spacing: -1.5px;
+      line-height: 1.15;
+      letter-spacing: -1.3px;
       margin-bottom: 22px;
     }
-    .thesis-hero h1 .highlight {
+    .memo-hero h1 .highlight {
       background: linear-gradient(135deg, var(--electric-blue), var(--circuit-green));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-    .thesis-hero-lede {
-      font-size: 1.15em;
+    .memo-hero-lede {
+      font-size: 1.08em;
       color: var(--text-secondary);
       line-height: 1.75;
-      margin-bottom: 24px;
+      margin-bottom: 22px;
     }
-    .thesis-byline {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      padding: 18px 0;
+    .memo-hero-lede strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+    .memo-byline {
+      padding: 16px 0;
       border-top: 1px solid var(--card-border);
       border-bottom: 1px solid var(--card-border);
       font-family: var(--font-mono);
-      font-size: 0.82em;
+      font-size: 0.78em;
       color: var(--text-secondary);
       letter-spacing: 0.5px;
     }
-    .thesis-byline .author { color: var(--text-primary); font-weight: 500; }
-    .thesis-byline .dot { color: var(--mid-gray); }
+    .memo-byline .author { color: var(--text-primary); font-weight: 500; }
+    .memo-byline .dot { color: var(--mid-gray); margin: 0 10px; }
 
-    /* ---------- Thesis Article ---------- */
-    .thesis-article {
-      padding: 70px 24px;
+    /* ---------- Memo Body ---------- */
+    .memo-body {
+      padding: 60px 24px 40px;
     }
-    .thesis-article-inner {
-      max-width: 720px;
+    .memo-body-inner {
+      max-width: 760px;
       margin: 0 auto;
     }
-    .thesis-section {
+
+    .memo-point {
       margin-bottom: 56px;
+      padding-bottom: 56px;
+      border-bottom: 1px solid var(--card-border);
     }
-    .thesis-section-num {
+    .memo-point:last-child {
+      border-bottom: none;
+    }
+
+    .point-num {
       display: inline-flex;
       align-items: center;
       gap: 10px;
       font-family: var(--font-mono);
-      font-size: 0.78em;
+      font-size: 0.76em;
       color: var(--electric-blue);
       letter-spacing: 2px;
       text-transform: uppercase;
       margin-bottom: 14px;
     }
-    .thesis-section-num .num-box {
+    .point-num .num-box {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -138,336 +137,184 @@
       font-size: 0.95em;
       font-weight: 600;
     }
-    .thesis-section h2 {
+
+    .memo-point h2 {
       font-family: var(--font-heading);
-      font-size: clamp(1.6em, 2.8vw, 2em);
+      font-size: clamp(1.5em, 2.6vw, 1.85em);
       font-weight: 700;
-      letter-spacing: -0.8px;
-      line-height: 1.2;
-      margin-bottom: 20px;
+      letter-spacing: -0.6px;
+      line-height: 1.25;
+      margin-bottom: 26px;
       color: var(--text-primary);
     }
-    .thesis-section p {
-      font-size: 1.05em;
-      color: var(--text-secondary);
-      line-height: 1.8;
-      margin-bottom: 18px;
-    }
-    .thesis-section p strong {
-      color: var(--text-primary);
-      font-weight: 600;
-    }
-    .thesis-section .pull-quote {
-      border-left: 3px solid var(--electric-blue);
-      background: rgba(0, 166, 251, 0.04);
+
+    /* ---------- Voice Blocks ---------- */
+    .voice-block {
       padding: 20px 24px;
-      margin: 28px 0;
-      font-family: var(--font-heading);
-      font-size: 1.15em;
-      font-weight: 500;
-      color: var(--text-primary);
-      line-height: 1.5;
-      letter-spacing: -0.3px;
-      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-    }
-    .thesis-section .data-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin: 24px 0;
-    }
-    .thesis-section .data-cell {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius-sm);
-      padding: 16px 18px;
-    }
-    .thesis-section .data-num {
-      font-family: var(--font-heading);
-      font-size: 1.4em;
-      font-weight: 700;
-      background: linear-gradient(135deg, var(--electric-blue), var(--circuit-green));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      line-height: 1.1;
-      margin-bottom: 4px;
-    }
-    .thesis-section .data-label {
-      font-family: var(--font-mono);
-      font-size: 0.72em;
-      color: var(--text-secondary);
-      letter-spacing: 0.5px;
-      line-height: 1.5;
-    }
-
-    /* ---------- The Ask / Divider ---------- */
-    .thesis-divider {
-      max-width: 720px;
-      margin: 40px auto 0;
-      padding: 0 24px 40px;
-      text-align: center;
-    }
-    .thesis-divider .divider-line {
-      display: block;
-      height: 1px;
-      background: var(--gradient-bar);
-      opacity: 0.5;
-      margin-bottom: 32px;
-    }
-    .thesis-divider p {
-      font-family: var(--font-heading);
-      font-size: 1.2em;
-      color: var(--text-primary);
-      line-height: 1.5;
-      max-width: 560px;
-      margin: 0 auto;
-      letter-spacing: -0.3px;
-    }
-
-    /* ---------- Survey ---------- */
-    .survey-section {
-      padding: 80px 24px;
-      background: rgba(26, 39, 68, 0.25);
-      border-top: 1px solid var(--card-border);
-      border-bottom: 1px solid var(--card-border);
-    }
-    .survey-inner {
-      max-width: 720px;
-      margin: 0 auto;
-    }
-    .survey-label {
-      font-family: var(--font-mono);
-      font-size: 0.78em;
-      color: var(--circuit-green);
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-bottom: 14px;
-    }
-    .survey-inner h2 {
-      font-family: var(--font-heading);
-      font-size: clamp(1.6em, 2.8vw, 2em);
-      font-weight: 700;
-      letter-spacing: -1px;
+      border-radius: var(--radius-md);
       margin-bottom: 16px;
-      line-height: 1.2;
-    }
-    .survey-intro {
-      font-size: 1.05em;
-      color: var(--text-secondary);
-      line-height: 1.7;
-      margin-bottom: 36px;
-    }
-
-    .survey-form {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius-lg);
-      padding: 40px;
-    }
-    .form-question {
-      margin-bottom: 28px;
-    }
-    .form-question:last-of-type {
-      margin-bottom: 0;
-    }
-    .form-question label.q-label {
-      display: block;
-      font-family: var(--font-heading);
-      font-weight: 600;
-      font-size: 1em;
-      color: var(--text-primary);
-      margin-bottom: 4px;
-      line-height: 1.4;
-    }
-    .form-question .q-number {
-      font-family: var(--font-mono);
-      font-size: 0.72em;
-      color: var(--electric-blue);
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      margin-bottom: 6px;
-    }
-    .form-question .q-hint {
-      font-size: 0.85em;
-      color: var(--text-secondary);
-      margin-bottom: 14px;
-      line-height: 1.5;
-    }
-    .radio-group {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .radio-option {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 16px;
-      background: rgba(255, 255, 255, 0.02);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      transition: all var(--transition-fast);
-      font-size: 0.93em;
-      color: var(--text-secondary);
-    }
-    .radio-option:hover {
-      border-color: var(--electric-blue-border);
-      background: rgba(0, 166, 251, 0.04);
-      color: var(--text-primary);
-    }
-    .radio-option input[type="radio"] {
-      appearance: none;
-      -webkit-appearance: none;
-      width: 16px;
-      height: 16px;
-      border: 2px solid var(--text-secondary);
-      border-radius: 50%;
-      flex-shrink: 0;
-      cursor: pointer;
-      transition: border-color var(--transition-fast);
       position: relative;
     }
-    .radio-option input[type="radio"]:checked {
-      border-color: var(--electric-blue);
-    }
-    .radio-option input[type="radio"]:checked::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 8px;
-      height: 8px;
-      background: var(--electric-blue);
-      border-radius: 50%;
-    }
-    .radio-option:has(input:checked) {
-      border-color: var(--electric-blue);
-      background: var(--electric-blue-glow);
-      color: var(--text-primary);
-    }
 
-    .form-question input[type="text"],
-    .form-question input[type="email"],
-    .form-question textarea {
-      width: 100%;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius-sm);
-      padding: 14px 16px;
-      color: var(--text-primary);
-      font-family: var(--font-body);
-      font-size: 0.95em;
-      outline: none;
-      transition: border-color var(--transition-fast);
-      resize: vertical;
-    }
-    .form-question input[type="text"]::placeholder,
-    .form-question input[type="email"]::placeholder,
-    .form-question textarea::placeholder {
-      color: var(--mid-gray);
-    }
-    .form-question input[type="text"]:focus,
-    .form-question input[type="email"]:focus,
-    .form-question textarea:focus {
-      border-color: var(--electric-blue);
-    }
-    .form-question textarea {
-      min-height: 110px;
-      line-height: 1.6;
-    }
-
-    .form-submit-row {
-      display: flex;
-      gap: 16px;
-      align-items: center;
-      margin-top: 36px;
-      flex-wrap: wrap;
-    }
-    .form-submit {
-      background: var(--electric-blue);
-      color: #fff;
-      border: none;
-      padding: 15px 32px;
-      border-radius: var(--radius-sm);
-      font-family: var(--font-body);
-      font-weight: 600;
-      font-size: 0.95em;
-      cursor: pointer;
-      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+    .voice-block .voice-label {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-    }
-    .form-submit:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 8px 24px rgba(0, 166, 251, 0.3);
-    }
-    .form-note {
       font-family: var(--font-mono);
-      font-size: 0.8em;
-      color: var(--text-secondary);
+      font-size: 0.7em;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
     }
 
-    /* ---------- BRG-Specific Outro ---------- */
-    .outro-section {
-      padding: 90px 24px;
+    .voice-block .voice-label .avatar {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      font-size: 0.85em;
     }
-    .outro-inner {
-      max-width: 720px;
+
+    .voice-block p {
+      font-size: 1em;
+      line-height: 1.75;
+      color: var(--text-primary);
+      margin: 0;
+    }
+
+    .voice-block p strong {
+      font-weight: 600;
+    }
+
+    /* Richie's voice — electric blue */
+    .voice-richie {
+      background: rgba(0, 166, 251, 0.05);
+      border-left: 3px solid var(--electric-blue);
+    }
+    .voice-richie .voice-label {
+      color: var(--electric-blue);
+    }
+    .voice-richie .voice-label .avatar {
+      background: var(--electric-blue);
+      color: #fff;
+    }
+
+    /* Claude's voice — circuit green */
+    .voice-claude {
+      background: rgba(0, 230, 118, 0.04);
+      border-left: 3px solid var(--circuit-green);
+    }
+    .voice-claude .voice-label {
+      color: var(--circuit-green);
+    }
+    .voice-claude .voice-label .avatar {
+      background: var(--circuit-green);
+      color: var(--deep-navy);
+      font-weight: 700;
+    }
+
+    /* ---------- The Closer / Bait ---------- */
+    .closer-section {
+      padding: 80px 24px;
+      background: linear-gradient(180deg, transparent 0%, rgba(26, 39, 68, 0.35) 50%, transparent 100%);
+      border-top: 1px solid var(--card-border);
+      border-bottom: 1px solid var(--card-border);
+    }
+    .closer-inner {
+      max-width: 760px;
       margin: 0 auto;
-      text-align: center;
     }
-    .outro-label {
+    .closer-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       font-family: var(--font-mono);
-      font-size: 0.78em;
+      font-size: 0.76em;
       color: var(--warm-amber);
       letter-spacing: 2px;
       text-transform: uppercase;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
     }
-    .outro-section h2 {
+    .closer-label .num-box {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      background: rgba(255, 179, 0, 0.12);
+      border: 1px solid rgba(255, 179, 0, 0.3);
+      border-radius: 6px;
+      font-size: 0.95em;
+      font-weight: 600;
+    }
+
+    .closer-question {
       font-family: var(--font-heading);
-      font-size: clamp(1.5em, 2.6vw, 1.9em);
-      font-weight: 700;
-      letter-spacing: -1px;
-      line-height: 1.3;
-      margin-bottom: 20px;
+      font-size: clamp(1.4em, 2.6vw, 1.8em);
+      font-weight: 600;
+      line-height: 1.4;
+      color: var(--text-primary);
+      letter-spacing: -0.5px;
+      margin-bottom: 28px;
     }
-    .outro-section p {
+    .closer-question .accent {
+      color: var(--warm-amber);
+    }
+
+    .closer-frame {
       font-size: 1.02em;
       color: var(--text-secondary);
       line-height: 1.8;
-      margin-bottom: 28px;
+      margin-bottom: 36px;
     }
-    .outro-actions {
+    .closer-frame strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .closer-actions {
       display: flex;
       gap: 14px;
-      justify-content: center;
       flex-wrap: wrap;
-      margin-bottom: 20px;
     }
-    .outro-contact {
+
+    /* ---------- Signoff / Footer ---------- */
+    .signoff {
+      padding: 50px 24px 20px;
+    }
+    .signoff-inner {
+      max-width: 760px;
+      margin: 0 auto;
       font-family: var(--font-mono);
-      font-size: 0.85em;
+      font-size: 0.8em;
       color: var(--text-secondary);
-      margin-top: 16px;
+      line-height: 1.7;
     }
-    .outro-contact a { color: var(--electric-blue); }
-    .outro-contact .sep { color: var(--mid-gray); margin: 0 10px; }
+    .signoff-inner strong {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+    .signoff-inner a { color: var(--electric-blue); }
+    .signoff-transparency {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px dashed var(--card-border);
+      color: var(--mid-gray);
+      font-size: 0.92em;
+    }
 
     /* ---------- Responsive ---------- */
     @media (max-width: 700px) {
-      .thesis-hero { padding: 110px 20px 50px; }
-      .thesis-article { padding: 50px 20px; }
-      .thesis-section { margin-bottom: 44px; }
-      .thesis-section h2 { font-size: 1.5em; }
-      .thesis-section .data-row { grid-template-columns: 1fr; }
-      .survey-section, .outro-section { padding: 60px 20px; }
-      .survey-form { padding: 28px 22px; }
-      .thesis-byline { font-size: 0.75em; flex-wrap: wrap; gap: 8px; }
+      .memo-hero { padding: 110px 20px 40px; }
+      .memo-body { padding: 40px 20px 30px; }
+      .memo-point { margin-bottom: 44px; padding-bottom: 44px; }
+      .memo-point h2 { font-size: 1.4em; }
+      .closer-section { padding: 60px 20px; }
+      .closer-question { font-size: 1.3em; }
+      .voice-block { padding: 18px 20px; }
     }
   </style>
 </head>
@@ -490,269 +337,140 @@
   </nav>
 
   <!-- ========== HERO ========== -->
-  <section class="thesis-hero">
-    <div class="thesis-hero-inner">
-      <div class="thesis-badge">
+  <section class="memo-hero">
+    <div class="memo-hero-inner">
+      <div class="memo-badge">
         <span class="pulse"></span>
-        Thesis + Research Survey
+        For BRG's AI &amp; Decision Intelligence practice
       </div>
-      <h1>The SMB AI Cliff:<br>Why the next five years are a <span class="highlight">generational transition crisis</span>.</h1>
-      <p class="thesis-hero-lede">
-        A short thesis I've been sharpening while learning AI in public. The bet: most small and mid-sized businesses are about to collide with a leadership transition they haven't planned for &#8212; and AI is the variable that decides whether the collision is a cliff or a bridge. I'm collecting responses to pressure-test it. Read the four sections, then take the survey at the bottom.
+      <h1>Five reads on the mid-market AI opportunity &#8212; and the <span class="highlight">bet I'm making</span> about your practice.</h1>
+      <p class="memo-hero-lede">
+        If you're reading this, you're one of maybe four people who ever will. I built it for the role I'm applying for, and for the practice you're building. Five short points I think are true about where the SMB market is heading, each one paired with a sharpening from Claude. <strong>One pointed question at the end.</strong>
       </p>
-      <div class="thesis-byline">
+      <div class="memo-byline">
         <span class="author">Richie Barden</span>
         <span class="dot">&bull;</span>
-        <span>April 2026</span>
+        Applicant, Managing Consultant
         <span class="dot">&bull;</span>
-        <span>8-min read + 90-sec survey</span>
+        Built with Claude
       </div>
     </div>
   </section>
 
-  <!-- ========== THESIS ARTICLE ========== -->
-  <article class="thesis-article">
-    <div class="thesis-article-inner">
+  <!-- ========== MEMO BODY ========== -->
+  <article class="memo-body">
+    <div class="memo-body-inner">
 
-      <!-- ============ SECTION 1 ============ -->
-      <section class="thesis-section">
-        <div class="thesis-section-num">
-          <span class="num-box">1</span> Section One &#8212; The Cliff
+      <!-- ============ POINT 1 ============ -->
+      <section class="memo-point">
+        <div class="point-num"><span class="num-box">1</span> Point One</div>
+        <h2>Management change is the real opportunity at SMBs &#8212; and SMBs haven't built that muscle.</h2>
+
+        <div class="voice-block voice-richie">
+          <div class="voice-label"><span class="avatar">R</span> Richie</div>
+          <p>Small and mid-sized businesses have survived the last two decades without building a real change management practice. They've gotten by because they hired people who already knew how things worked. The knowing was the system. That isn't change management &#8212; that's continuity. And continuity is about to meet a transition.</p>
         </div>
-        <h2>The leadership concentration problem is bigger than it looks.</h2>
-        <p>
-          Walk into almost any small or mid-sized business in the country and you'll find the same pattern: a disproportionate share of the decision-making seats are held by people in the back half of their careers. Boomers are working later than any generation before them. They hold a majority of senior operating and ownership roles in SMB America. They've also accumulated two or three decades of tacit knowledge that was never written down &#8212; because it never needed to be.
-        </p>
-        <p>
-          This worked fine for a long time. Institutional memory sitting in one person's head is a feature when that person isn't going anywhere. It's a risk when they are. And the exits are coming &#8212; slowly, then all at once.
-        </p>
-        <div class="pull-quote">
-          "The SMB org chart isn't built for succession. It's built for continuity. Those are not the same thing."
+
+        <div class="voice-block voice-claude">
+          <div class="voice-label"><span class="avatar">C</span> Claude &mdash; sharpening</div>
+          <p>The reason this is a consulting opportunity and not an HR one: the replacement hire doesn't fix it. The operator pipeline you'd normally draw from is the same pipeline that's exiting. What has to replace the retiring operator is structural &#8212; documented standard work, explicit decision rights, AI-augmented process. Practices that can deliver that reconstructive work &#8212; not just the AI layer on top &#8212; own this decade.</p>
         </div>
-        <p>
-          What most SMB leaders haven't internalized: <strong>the transition isn't just a talent problem</strong>. It's an operational one. When a 30-year operator retires, they don't just take their knowledge &#8212; they take every workaround, every informal exception, every relationship that kept a fragile system running. The org discovers, often too late, that it was operating on memorized procedure, not documented process.
-        </p>
       </section>
 
-      <!-- ============ SECTION 2 ============ -->
-      <section class="thesis-section">
-        <div class="thesis-section-num">
-          <span class="num-box">2</span> Section Two &#8212; The Real Bottleneck
+      <!-- ============ POINT 2 ============ -->
+      <section class="memo-point">
+        <div class="point-num"><span class="num-box">2</span> Point Two</div>
+        <h2>Boomers are concentrated in leadership and working later than any prior generation. The skill gap is coming.</h2>
+
+        <div class="voice-block voice-richie">
+          <div class="voice-label"><span class="avatar">R</span> Richie</div>
+          <p>Boomers hold a disproportionate share of SMB leadership seats. They're also working longer than any generation before them. Both trends have been masking the same problem: the org chart has been absorbing institutional knowledge into a small number of senior heads for twenty-plus years, and when those heads exit &#8212; slowly, and then all at once &#8212; the skill gap is going to be real.</p>
         </div>
-        <h2>Change management is a muscle most SMBs never built.</h2>
-        <p>
-          Large companies survive CEO transitions because they have formal change management: playbooks, succession planning, documented standard work, KM systems, communication frameworks. SMBs don't. They survived the last 20 years by hiring people who just <em>knew how things worked</em> &#8212; and the knowing was enough.
-        </p>
-        <p>
-          That muscle atrophies in peacetime. And we're about to leave peacetime.
-        </p>
-        <p>
-          My bet is that <strong>change management capability &#8212; not AI capability &#8212; is the actual constraint</strong> on whether SMBs navigate the next five years. An AI tool that saves three hours a week is worthless in an org that can't absorb process change. A forecasting model nobody trusts is just another file in a SharePoint folder. The technology will arrive faster than the organization's ability to metabolize it, and the gap between "have the tool" and "benefit from the tool" will turn out to be wider than anyone expected.
-        </p>
+
+        <div class="voice-block voice-claude">
+          <div class="voice-label"><span class="avatar">C</span> Claude &mdash; sharpening</div>
+          <p>The sharper version: there is no 45-year-old bench in most of these businesses. The usual fix &#8212; outside hires &#8212; doesn't work in companies that run on relationship, operator judgment, and tacit process. Which means the only working answer is to build systems that lower the judgment burden on the replacement. That is an AI-plus-change-management problem, and it is the central question in Richie's thesis. Answer it well and you've defined the decade.</p>
+        </div>
       </section>
 
-      <!-- ============ SECTION 3 ============ -->
-      <section class="thesis-section">
-        <div class="thesis-section-num">
-          <span class="num-box">3</span> Section Three &#8212; The Hidden Opportunity
+      <!-- ============ POINT 3 ============ -->
+      <section class="memo-point">
+        <div class="point-num"><span class="num-box">3</span> Point Three</div>
+        <h2>AI adoption over the next five years is make-or-break for these generational transitions.</h2>
+
+        <div class="voice-block voice-richie">
+          <div class="voice-label"><span class="avatar">R</span> Richie</div>
+          <p>The five-year window decides whether the transition is a cliff or a bridge. The companies that figure out how to absorb AI while they still have operators around to teach it what "right" looks like will be fine. The companies that try to absorb AI after the operators are gone are going to struggle &#8212; and by then the skill gap is compounding in both directions.</p>
         </div>
-        <h2>Legacy systems are the cheapest AI arbitrage nobody is pricing in.</h2>
-        <p>
-          The typical SMB tech stack is a layered history of good intentions: a CRM from 2012, an ERP module that one consultant configured in 2016 and nobody has touched since, an Excel model a retired controller built, three SaaS point solutions added during COVID. None of these systems talk to each other natively. Work gets done because humans are the integration layer &#8212; copying numbers from screen A to screen B.
-        </p>
-        <div class="data-row">
-          <div class="data-cell">
-            <div class="data-num">~$300K</div>
-            <div class="data-label">Typical cost of a traditional SMB systems-integration project</div>
-          </div>
-          <div class="data-cell">
-            <div class="data-num">&lt;$5K/yr</div>
-            <div class="data-label">AI-bridged integration that does 80% of it</div>
-          </div>
-          <div class="data-cell">
-            <div class="data-num">60x</div>
-            <div class="data-label">Order-of-magnitude cost shift that's barely begun</div>
-          </div>
+
+        <div class="voice-block voice-claude">
+          <div class="voice-label"><span class="avatar">C</span> Claude &mdash; sharpening</div>
+          <p>Note the implied sequencing &#8212; operator-to-AI knowledge transfer is a finite-window opportunity, not an evergreen one. Every quarter of delay compounds against the client. The consulting implication: the highest-leverage SMB engagement available right now is the one that captures institutional knowledge into AI-readable structure <em>before</em> the operator retires. That's a new deliverable category. I don't think the market has fully priced it in yet.</p>
         </div>
-        <p>
-          AI is the cheapest glue layer anyone has ever shipped. An SMB leader with even modest technical curiosity can now bridge two systems with a custom agent that reads from one and writes to the other &#8212; for the cost of a team lunch. A year ago this would have been a six-month IT project with a five-figure consulting bill. <strong>That asymmetry is real, and it's not priced into the competitive landscape yet</strong>. The SMBs that realize it first, and build the change management to absorb the change, compound the advantage.
-        </p>
       </section>
 
-      <!-- ============ SECTION 4 ============ -->
-      <section class="thesis-section">
-        <div class="thesis-section-num">
-          <span class="num-box">4</span> Section Four &#8212; The Deprioritized Work
+      <!-- ============ POINT 4 ============ -->
+      <section class="memo-point">
+        <div class="point-num"><span class="num-box">4</span> Point Four</div>
+        <h2>Legacy systems that can't talk to each other can now be bridged cheaply. That changes the shape of the work.</h2>
+
+        <div class="voice-block voice-richie">
+          <div class="voice-label"><span class="avatar">R</span> Richie</div>
+          <p>Most SMBs have old systems and old ways of doing things. The systems don't talk to each other natively, so humans are the integration layer &#8212; copying numbers from one screen to another. You don't need to replace the CRM or the ERP. You just need to glue them together. Automations that never worked inside a legacy system can now be bridged on top of it.</p>
         </div>
-        <h2>AI finally makes the "important but not urgent" work feasible at SMB scale.</h2>
-        <p>
-          Every SMB leader I've talked to has the same mental list. Things that should get done but never do. <strong>Real</strong> market research. A three-year rolling forecast. A competitive analysis that isn't just a Google search. Customer segmentation grounded in actual data. Pricing analysis beyond gut-feel adjustments. A proper SWOT that doesn't devolve into a brainstorm.
-        </p>
-        <p>
-          None of this gets done. Not because it's unimportant &#8212; leaders know it's important &#8212; but because it doesn't produce anything shippable today. In a small org, the work that doesn't ship product to a customer gets pushed to next week, forever. The urgent eats the important.
-        </p>
-        <div class="pull-quote">
-          "The strategic work that defined Fortune 500s for 40 years has been out of reach for SMBs because the labor economics didn't pencil. AI changes the labor economics. That's the unlock."
+
+        <div class="voice-block voice-claude">
+          <div class="voice-label"><span class="avatar">C</span> Claude &mdash; sharpening</div>
+          <p>The second-order effect matters more than the first. If AI-as-integration-layer works, it erodes the case for big ERP replacement projects that have anchored mid-market IT spend for twenty years. That's a real portfolio shift for every consulting practice that serves this segment. Decision Intelligence practices that lean into integration-as-a-service take share from traditional digital transformation practices still selling rip-and-replace. The disruption isn't just to the client &#8212; it's to the consultants too.</p>
         </div>
-        <p>
-          A leadership team that starts doing the deprioritized work &#8212; because AI compresses the effort from weeks to hours &#8212; will compound insight over competitors whose leadership is still firefighting. This isn't about automating the factory floor. It's about <strong>putting a McKinsey-grade strategic function inside a twelve-person company</strong>.
-        </p>
       </section>
 
-      <!-- ============ SECTION 5 ============ -->
-      <section class="thesis-section">
-        <div class="thesis-section-num">
-          <span class="num-box">5</span> Section Five &#8212; The Window
+      <!-- ============ POINT 5 ============ -->
+      <section class="memo-point">
+        <div class="point-num"><span class="num-box">5</span> Point Five</div>
+        <h2>High-leverage strategic work gets back-burnered forever. AI finally unlocks it at SMB scale.</h2>
+
+        <div class="voice-block voice-richie">
+          <div class="voice-label"><span class="avatar">R</span> Richie</div>
+          <p>Every SMB leader has a mental list of work that should get done but never does: forecasting, market research, pricing analysis, competitive intelligence. It doesn't get done because it doesn't ship product to a customer &#8212; so it gets pushed to next week, forever. The urgent eats the important. AI compresses that work from weeks to hours, and for the first time it's actually feasible at SMB scale.</p>
         </div>
-        <h2>The next five years are the whole game.</h2>
-        <p>
-          Stack the variables: Boomer retirements accelerating, institutional knowledge walking out the door, legacy systems cracking under load, change management muscle atrophied from disuse, AI capability improving faster than anyone's ability to absorb it, and a generational shift in who runs the business. That isn't a trend line. That's an inflection.
-        </p>
-        <p>
-          Whichever SMBs build two capabilities in the next five years &#8212; <strong>a real change management function and genuine AI fluency at the leadership level</strong> &#8212; inherit their markets. Whichever ones don't will be the acquisition targets or the empty storefronts.
-        </p>
-        <p>
-          Most consulting engagements in this space will get framed as "digital transformation." That framing is wrong. The technology is the easy part. The real work is reconstructing an organizational muscle that SMB America never really built &#8212; and using the five-year window to do it before the transition is forced on them.
-        </p>
+
+        <div class="voice-block voice-claude">
+          <div class="voice-label"><span class="avatar">C</span> Claude &mdash; sharpening</div>
+          <p>The honest read: strategic work was never unavailable to SMBs for analytical reasons. It was unavailable for labor reasons. AI doesn't invent new strategy work &#8212; it changes the economics of who can afford to do it. That is a real redistribution event. The consulting opportunity is to be the practice that brings the work large enterprises have been doing for forty years into companies that couldn't previously pencil it. Not a transformation. A democratization.</p>
+        </div>
       </section>
 
     </div>
   </article>
 
-  <!-- ========== DIVIDER ========== -->
-  <div class="thesis-divider">
-    <span class="divider-line"></span>
-    <p>That's the thesis. Now I need your help sharpening it.</p>
-  </div>
+  <!-- ========== THE CLOSER ========== -->
+  <section class="closer-section">
+    <div class="closer-inner">
+      <div class="closer-label"><span class="num-box">?</span> One question for you</div>
 
-  <!-- ========== RESEARCH SURVEY ========== -->
-  <section class="survey-section">
-    <div class="survey-inner">
-      <div class="survey-label">Research Survey &bull; 90 seconds</div>
-      <h2>Pressure-test the thesis with me.</h2>
-      <p class="survey-intro">
-        I'm collecting responses from SMB leaders, mid-market operators, consultants, and anyone who works with them. Every response goes directly to my inbox and I read (and reply to) each one personally. If enough signal comes back, this turns into a research brief I'll publish in the newsletter.
+      <p class="closer-question">
+        If AI capability is increasingly commodity, the differentiator for a practice like yours becomes <span class="accent">the ability to pair it with credible change management delivery</span>. Is that already the internal conversation at BRG &#8212; or is it still getting framed as a tooling play?
       </p>
 
-      <form
-        class="survey-form"
-        action="https://formsubmit.co/richard.barden.iv@gmail.com"
-        method="POST"
-      >
-        <!-- Formsubmit config -->
-        <input type="hidden" name="_subject" value="SMB AI Cliff — new survey response">
-        <input type="hidden" name="_template" value="table">
-        <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_next" value="https://shortcircuitproject.com/for-brg.html?submitted=1">
-        <!-- Honeypot -->
-        <input type="text" name="_honey" style="display:none">
+      <p class="closer-frame">
+        I'd value the read from inside the practice. The five points above are where I'd start on a mid-market engagement if I sat at your table &#8212; and I'd want to know how close or far that is from how you're already framing it. <strong>Reply and tell me I'm wrong. Or tell me I'm close.</strong> That's the conversation I'd want to have first.
+      </p>
 
-        <div class="form-question">
-          <div class="q-number">Q1</div>
-          <label class="q-label">What best describes your role?</label>
-          <div class="radio-group">
-            <label class="radio-option"><input type="radio" name="Role" value="SMB leader / owner" required> SMB leader or owner (&lt;$50M revenue)</label>
-            <label class="radio-option"><input type="radio" name="Role" value="Mid-market operator" required> Mid-market operator or executive ($50M-$500M)</label>
-            <label class="radio-option"><input type="radio" name="Role" value="Consultant / advisor" required> Consultant or advisor who works with SMBs</label>
-            <label class="radio-option"><input type="radio" name="Role" value="Investor / PE" required> Investor, PE professional, or lender</label>
-            <label class="radio-option"><input type="radio" name="Role" value="Other" required> Something else</label>
-          </div>
-        </div>
-
-        <div class="form-question">
-          <div class="q-number">Q2</div>
-          <label class="q-label">Roughly what percentage of your leadership team (or your clients' leadership teams) is 55+?</label>
-          <p class="q-hint">Your gut estimate is fine.</p>
-          <div class="radio-group">
-            <label class="radio-option"><input type="radio" name="Leadership age concentration" value="Under 25%" required> Under 25%</label>
-            <label class="radio-option"><input type="radio" name="Leadership age concentration" value="25-50%" required> 25&ndash;50%</label>
-            <label class="radio-option"><input type="radio" name="Leadership age concentration" value="50-75%" required> 50&ndash;75%</label>
-            <label class="radio-option"><input type="radio" name="Leadership age concentration" value="Over 75%" required> Over 75%</label>
-          </div>
-        </div>
-
-        <div class="form-question">
-          <div class="q-number">Q3</div>
-          <label class="q-label">How many core systems in the business don't talk to each other natively?</label>
-          <p class="q-hint">CRM, ERP, accounting, custom Excel models, point SaaS tools, etc.</p>
-          <div class="radio-group">
-            <label class="radio-option"><input type="radio" name="System fragmentation" value="0 or 1" required> 0 or 1 &#8212; we're surprisingly integrated</label>
-            <label class="radio-option"><input type="radio" name="System fragmentation" value="2-3" required> 2&ndash;3 &#8212; some friction, manageable</label>
-            <label class="radio-option"><input type="radio" name="System fragmentation" value="4-6" required> 4&ndash;6 &#8212; humans are the integration layer</label>
-            <label class="radio-option"><input type="radio" name="System fragmentation" value="Too many to count" required> Too many to count &#8212; it's chaos and we know it</label>
-          </div>
-        </div>
-
-        <div class="form-question">
-          <div class="q-number">Q4</div>
-          <label class="q-label">What percentage of the "important but not urgent" strategic work actually gets done on time?</label>
-          <p class="q-hint">Market research, forecasting, pricing analysis, competitive intelligence, etc.</p>
-          <div class="radio-group">
-            <label class="radio-option"><input type="radio" name="Strategic work completion" value="Under 25%" required> Under 25% &#8212; the urgent eats the important</label>
-            <label class="radio-option"><input type="radio" name="Strategic work completion" value="25-50%" required> 25&ndash;50% &#8212; we try, we mostly fail</label>
-            <label class="radio-option"><input type="radio" name="Strategic work completion" value="50-75%" required> 50&ndash;75% &#8212; reasonable cadence</label>
-            <label class="radio-option"><input type="radio" name="Strategic work completion" value="Over 75%" required> Over 75% &#8212; we're disciplined about it</label>
-          </div>
-        </div>
-
-        <div class="form-question">
-          <div class="q-number">Q5</div>
-          <label class="q-label">Does your org (or your clients') have a formal change management practice?</label>
-          <div class="radio-group">
-            <label class="radio-option"><input type="radio" name="Change management maturity" value="Mature practice" required> Yes &#8212; mature, repeatable practice</label>
-            <label class="radio-option"><input type="radio" name="Change management maturity" value="Early practice" required> Yes &#8212; early, developing practice</label>
-            <label class="radio-option"><input type="radio" name="Change management maturity" value="No but should" required> No &#8212; but we know we should</label>
-            <label class="radio-option"><input type="radio" name="Change management maturity" value="No we figure it out" required> No &#8212; we figure it out as we go</label>
-          </div>
-        </div>
-
-        <div class="form-question">
-          <div class="q-number">Q6</div>
-          <label class="q-label">Where do you see the single biggest AI opportunity for your org (or your clients) in the next 24 months?</label>
-          <p class="q-hint">One sentence is fine. Specific is better than general.</p>
-          <textarea name="Biggest AI opportunity" placeholder="e.g., bridging our CRM and accounting systems so sales reps stop manually reconciling quotes and invoices" required></textarea>
-        </div>
-
-        <div class="form-question">
-          <div class="q-number">Q7</div>
-          <label class="q-label">Where's the thesis wrong, overstated, or missing something?</label>
-          <p class="q-hint">Push back. The more pointed, the better. This is the question I care most about.</p>
-          <textarea name="Pushback on thesis" placeholder="Tell me what I'm getting wrong..."></textarea>
-        </div>
-
-        <div class="form-question">
-          <div class="q-number">Q8</div>
-          <label class="q-label">Anything else, plus how should I reach you if I want to follow up?</label>
-          <p class="q-hint">Optional. Name, email, industry, company size, whatever you want to share.</p>
-          <textarea name="Additional context and contact" placeholder="Optional &mdash; leave blank if you'd rather stay anonymous"></textarea>
-        </div>
-
-        <div class="form-submit-row">
-          <button type="submit" class="form-submit">
-            <span>&#9889;</span> Send my response
-          </button>
-          <span class="form-note">Goes straight to Richie's inbox. Read by a human. Replied to personally.</span>
-        </div>
-      </form>
+      <div class="closer-actions">
+        <a href="mailto:richard.barden.iv@gmail.com?subject=Re%3A%20Memo%20for%20BRG%20%E2%80%94%20the%20question%20at%20the%20bottom&body=Richie%2C%0A%0A" class="btn-primary">Reply to this memo &#8594;</a>
+        <a href="https://www.linkedin.com/in/richardbardeniv/" target="_blank" rel="noopener" class="btn-secondary">Connect on LinkedIn</a>
+      </div>
     </div>
   </section>
 
-  <!-- ========== BRG OUTRO ========== -->
-  <section class="outro-section">
-    <div class="outro-inner">
-      <div class="outro-label">&#9733; A Note for BRG</div>
-      <h2>If you're reading this because of an application I sent you: hello.</h2>
-      <p>
-        This page is half portfolio and half research &#8212; it's the clearest way I know to show you how I think about the mid-market AI opportunity and the kind of thesis work I'd want to bring into a BRG engagement. If any of this resonates, or if you think I'm wrong in an interesting way, I'd love to talk. And if you have 90 seconds, fill out the survey above &#8212; I'd value the data point from someone who lives in this market every day.
-      </p>
-      <div class="outro-actions">
-        <a href="mailto:richard.barden.iv@gmail.com?subject=BRG%20Managing%20Consultant%20-%20follow%20up" class="btn-primary">Email Richie &#8594;</a>
-        <a href="https://www.linkedin.com/in/richardbardeniv/" target="_blank" rel="noopener" class="btn-secondary">Connect on LinkedIn</a>
-      </div>
-      <div class="outro-contact">
-        richard.barden.iv@gmail.com
-        <span class="sep">&bull;</span>
-        shortcircuitproject.com
+  <!-- ========== SIGNOFF ========== -->
+  <section class="signoff">
+    <div class="signoff-inner">
+      <strong>Richie Barden</strong> &mdash; applicant for the Managing Consultant role, BRG AI &amp; Decision Intelligence practice.<br>
+      <a href="mailto:richard.barden.iv@gmail.com">richard.barden.iv@gmail.com</a> &middot; <a href="https://shortcircuitproject.com">shortcircuitproject.com</a>
+      <div class="signoff-transparency">
+        This page was built in collaboration with Claude. Richie wrote the five points; Claude wrote the sharpenings labeled &#8220;Claude.&#8221; The separation is real &#8212; and it's the same workflow I'd bring to a client engagement.
       </div>
     </div>
   </section>
@@ -767,32 +485,19 @@
         <li><a href="newsletter.html">Newsletter</a></li>
         <li><a href="about.html">About</a></li>
       </ul>
-      <span class="footer-copy">&copy; 2026 &bull; Built by Richie Barden</span>
+      <span class="footer-copy">&copy; 2026 &bull; Richie Barden</span>
     </div>
   </footer>
 
   <!-- ========== SCRIPTS ========== -->
   <script>
-    // Nav scroll
     const nav = document.getElementById('nav');
     window.addEventListener('scroll', () => {
       nav.classList.toggle('scrolled', window.scrollY > 40);
     });
-
-    // Mobile menu
     const navToggle = document.getElementById('navToggle');
     const navLinks = document.getElementById('navLinks');
     navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
-
-    // Thank-you message after form submission
-    if (new URLSearchParams(window.location.search).get('submitted') === '1') {
-      const banner = document.createElement('div');
-      banner.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:rgba(0,230,118,0.15);border:1px solid rgba(0,230,118,0.4);color:#fff;padding:14px 22px;border-radius:8px;z-index:2000;font-family:var(--font-mono);font-size:0.88em;box-shadow:0 8px 24px rgba(0,0,0,0.3);';
-      banner.innerHTML = '&#10003; Response received. Thank you &mdash; Richie will reply within 48 hours.';
-      document.body.appendChild(banner);
-      setTimeout(() => { banner.style.opacity = '0'; banner.style.transition = 'opacity 0.8s'; }, 5000);
-      setTimeout(() => banner.remove(), 6500);
-    }
   </script>
 
 </body>
